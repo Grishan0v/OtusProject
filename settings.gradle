@@ -1,0 +1,2 @@
+rootProject.name='OtusProject'
+include ':app'
