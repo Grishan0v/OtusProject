@@ -1,18 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/invite_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="@dimen/defaultPadding"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/inviteFriends_btn"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/posterHeight"
+        android:orientation="horizontal"
+        android:padding="@dimen/defaultPadding">
+
+        <ImageView
+            android:id="@+id/poster1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/posterHeight"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/poster1"
+            tools:ignore="ContentDescription">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/poster2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/posterHeight"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/poster2"
+            tools:ignore="ContentDescription"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/defaultPadding">
+
+        <TextView
+            android:id="@+id/movieName1"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/movieName1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/movieName2"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/movieName2"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/details_btn_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/details_btn"
+            android:layout_marginLeft="@dimen/margin_btn_lr"
+            android:layout_marginRight="@dimen/margin_btn_lr"
+            tools:ignore="ButtonStyle"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+        <Button
+            android:id="@+id/details_btn_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/details_btn"
+            tools:ignore="ButtonStyle"
+            android:layout_marginLeft="@dimen/margin_btn_lr"
+            android:layout_marginRight="@dimen/margin_btn_lr"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+    </LinearLayout>
+</LinearLayout>
