@@ -44,6 +44,20 @@ class MainActivity : AppCompatActivity() {
             val shareIntent = Intent.createChooser(intent, null)
             startActivity(shareIntent)
         }
+
+        binding.switchMode.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // The switch is enabled/checked
+                binding.switchMode.text = "Night"
+                // Change the app background color
+
+            } else {
+                // The switch is disabled
+                binding.switchMode.text = "Day"
+                // Set the app background color to light gray
+
+            }
+        }
     }
 
     override fun onResume() {
