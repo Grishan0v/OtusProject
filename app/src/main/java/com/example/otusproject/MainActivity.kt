@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import com.example.otusproject.databinding.ActivityMainBinding
 
@@ -30,6 +29,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+         binding.detailsBtn3.setOnClickListener{
+            binding.movieName3.setTextColor(Color.RED)
+            val intent = Intent(this, Movie3Activity::class.java)
+            startActivity(intent)
+        }
+
         binding.inviteBtn.setOnClickListener {
             val intent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -47,8 +52,9 @@ class MainActivity : AppCompatActivity() {
         val name = intent.getStringExtra("movieName")
         if (name != null) {
             when (name) {
-            "Blade Runner 2049" -> binding.movieName1.setTextColor(Color.RED)
-            "Joker" -> binding.movieName2.setTextColor(Color.RED)
+                "Blade Runner 2049" -> binding.movieName1.setTextColor(Color.RED)
+                "Joker" -> binding.movieName2.setTextColor(Color.RED)
+                "Knives Out" -> binding.movieName3.setTextColor(Color.RED)
             }
 
             when (intent.getBooleanExtra("checkBox", false)) {
