@@ -41,6 +41,7 @@ class Movie3Activity : AppCompatActivity() {
         intentM1.putExtra("movieName", "Knives Out")
         intentM1.putExtra("notes", noteText)
         startActivityForResult(intentM1, 1)
+        finish()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.CheckBox
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.text.set
 import com.example.otusproject.databinding.ActivityMainBinding
 import com.example.otusproject.databinding.MovieDetails1LayoutBinding
@@ -29,14 +30,12 @@ class Movie1Activity : AppCompatActivity() {
                     note = s
                 }
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 noteText = s.toString()
             }
-
         })
     }
 
@@ -46,6 +45,7 @@ class Movie1Activity : AppCompatActivity() {
         intentM1.putExtra("movieName", "Blade Runner 2049")
         intentM1.putExtra("notes", noteText)
         startActivityForResult(intentM1, 1)
+        finish()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

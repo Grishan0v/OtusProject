@@ -12,23 +12,27 @@
     <string name="add_to_favorite">add to favorite</string>
     <string name="add_your_notes_here">add your notes here...</string>
     <string name="release_date">Release date:</string>
-    <string name="dateMovie1">2017</string>
+    <string name="dateMovie1" translatable="false">2017</string>
     <string name="starring">Starring:</string>
     <string name="actorsMovie1">Harison Ford, Ryan Gosling</string>
     <string name="directed_by">Directed by:</string>
     <string name="directorMovie1">Denis Villeneuve</string>
-    <string name="ratioMovie1">4.3 Stars</string>
+    <string name="ratioMovie1" translatable="false">4.3 Stars</string>
     <string name="description">description</string>
     <string name="star">star</string>
     <string name="poster">poster</string>
-    <string name="dateMovie2">2019</string>
+    <string name="dateMovie2" translatable="false">2019</string>
     <string name="actorsMovie2">Joaquin Phoenix</string>
     <string name="directorMovie2">Todd Phillips</string>
-    <string name="ratingMovie2">4.4 STARS</string>
+    <string name="ratingMovie2" translatable="false">4.4 STARS</string>
     <string name="movieName3">Knives Out</string>
-    <string name="dateMovie3">2019</string>
+    <string name="dateMovie3" translatable="false">2019</string>
     <string name="actorsMovie3">Daniel Craig</string>
     <string name="directorMovie3">Rian Johnson</string>
-    <string name="ratingMovie3">4.7 STARS</string>
-    <string name="day">Day</string>
+    <string name="ratingMovie3" translatable="false">4.7 STARS</string>
+    <string name="day">Day Mode</string>
+    <string name="alert_exit">Are you sure you want to leave?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="night">Night Mode</string>
 </resources>

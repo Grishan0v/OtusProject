@@ -13,11 +13,11 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="135dp"
         android:layout_height="35dp"
-        android:layout_marginTop="16dp"
         android:text="@string/details_btn"
         app:layout_constraintEnd_toEndOf="@+id/movieName3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/movieName3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/movieName3" />
 
     <Button
         android:id="@+id/invite_btn"
@@ -25,6 +25,7 @@
         android:layout_width="283dp"
         android:layout_height="39dp"
         android:text="@string/inviteFriends_btn"
+        app:srcCompat="@drawable/ic_contact_mail_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,13 +78,13 @@
     <Button
         android:id="@+id/details_btn_1"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="0dp"
+        android:layout_width="136dp"
         android:layout_height="35dp"
-        android:layout_marginTop="16dp"
         android:text="@string/details_btn"
         app:layout_constraintEnd_toEndOf="@+id/movieName1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/movieName1"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/movieName1" />
 
     <TextView
         android:id="@+id/movieName2"
@@ -102,32 +103,22 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="35dp"
-        android:layout_marginTop="16dp"
         android:text="@string/details_btn"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <Switch
-        android:id="@+id/switchMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/day"
-        app:layout_constraintBottom_toBottomOf="@+id/invite_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/invite_btn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/movieName2" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="135dp"
         android:layout_height="200dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/poster"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/details_btn_1"
         app:srcCompat="@drawable/poster3" />
 
     <TextView
@@ -141,5 +132,25 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView5"
         app:layout_constraintStart_toStartOf="@+id/imageView5"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:id="@+id/dayNightBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/invite_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/invite_btn" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/invite_btn"
+        app:layout_constraintEnd_toEndOf="@+id/invite_btn"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="@+id/invite_btn"
+        app:layout_constraintTop_toTopOf="@+id/invite_btn"
+        app:srcCompat="@drawable/ic_contact_mail_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
