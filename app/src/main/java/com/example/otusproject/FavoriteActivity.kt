@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.otusproject.databinding.ActivityFavoriteBinding
@@ -24,6 +26,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.recycleViewId.layoutManager = LinearLayoutManager(this@FavoriteActivity, RecyclerView.VERTICAL,false)
+        binding.recycleViewId.layoutAnimation = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_fall_down)
         binding.recycleViewId.addItemDecoration(SpacingItemDecoration(16))
         binding.recycleViewId.adapter = MovieFavRecycleAdapter(this, favoriteItems)
     }
