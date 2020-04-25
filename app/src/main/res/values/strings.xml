@@ -17,7 +17,7 @@
     <string name="actorsMovie1">Harison Ford, Ryan Gosling</string>
     <string name="directed_by">Directed by:</string>
     <string name="directorMovie1">Denis Villeneuve</string>
-    <string name="ratioMovie1" translatable="false">4.3 Stars</string>
+    <string name="ratingMovie1" translatable="false">4.3 Stars</string>
     <string name="description">description</string>
     <string name="star">star</string>
     <string name="poster">poster</string>
@@ -35,4 +35,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="night">Night Mode</string>
+    <string name="toastAddedToFav">Added to Favorite</string>
 </resources>
