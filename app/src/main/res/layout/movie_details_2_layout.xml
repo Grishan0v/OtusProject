@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/movieName2"
+        android:gravity="center"
+        android:padding="@dimen/defaultPadding"
+        android:textSize="@dimen/detailsHeadTextSize"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorTextHead"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        app:srcCompat="@drawable/poster2"
+        android:padding="@dimen/defaultPadding"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/checkBoxName"
+        android:padding="@dimen/defaultPadding"/>
+
+    <EditText
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_btn_lr"
+        android:layout_marginRight="@dimen/margin_btn_lr"
+        android:hint="for notes"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/movie1Description2"
+        android:gravity="center"
+        android:padding="@dimen/defaultPadding"
+        android:textStyle="italic"
+        android:textColor="@color/colorTextHead"
+        android:layout_margin="16dp"/>
+</LinearLayout>
+</ScrollView>
