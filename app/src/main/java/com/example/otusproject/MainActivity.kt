@@ -1,9 +1,9 @@
 package com.example.otusproject
 
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.otusproject.databinding.ActivityMainBinding
 
@@ -25,14 +25,13 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
 
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.home_menu_item -> startFragment(homeFragment)
                 R.id.favorite_menu_item -> startFragment(favoriteFragment.newInstance(favoritesItems))
                 R.id.invite_menu_item -> startFragment(inviteFragment)
             }
             true
         }
-
     }
 
     private fun initFragments() {
@@ -49,16 +48,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
         }
     }
 
-    private fun startFragmentWithBackStack (fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frame_home_screen, fragment)
-            addToBackStack("fragment")
-            commit()
-        }
-    }
-
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount > 0) {
+        if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
             val alertDialogBuilder = AlertDialog.Builder(this)
@@ -82,11 +73,9 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList("FAV_ARRAY", favoritesItems)
-        when(this.supportFragmentManager.findFragmentById(R.id.frame_home_screen)){
+        when (this.supportFragmentManager.findFragmentById(R.id.frame_home_screen)) {
             is HomeFragment -> outState.putString("IS_ACTIVE", "HOME")
-            is DetailsFragment -> {
-                outState.putString("IS_ACTIVE", "DETAILS")
-            }
+            is DetailsFragment -> outState.putString("IS_ACTIVE", "DETAILS")
             is FavoriteFragment -> outState.putString("IS_ACTIVE", "FAVORITE")
             is InviteFragment -> outState.putString("IS_ACTIVE", "INVITE")
         }
@@ -97,11 +86,11 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
         favoritesItems = savedInstanceState
             .getParcelableArrayList<MovieItem>("FAV_ARRAY") as ArrayList<MovieItem>
 
-        when(savedInstanceState.getString("IS_ACTIVE")) {
+        when (savedInstanceState.getString("IS_ACTIVE")) {
             "HOME" -> startFragment(homeFragment)
-            "DETAILS" -> startFragmentWithBackStack(detailsFragment)
-            "FAVORITE" -> startFragmentWithBackStack(favoriteFragment.newInstance(favoritesItems))
-            "INVITE" -> startFragmentWithBackStack(inviteFragment)
+            "DETAILS" -> startFragment(detailsFragment)
+            "FAVORITE" -> startFragment(favoriteFragment.newInstance(favoritesItems))
+            "INVITE" -> startFragment(inviteFragment)
 
         }
     }

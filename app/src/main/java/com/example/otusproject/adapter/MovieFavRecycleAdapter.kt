@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
 class MovieFavRecycleAdapter(
     private val context: LayoutInflater,
     private var items: ArrayList<MovieItem>
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieFavViewHolder(
@@ -33,7 +33,7 @@ class MovieFavRecycleAdapter(
             is MovieFavViewHolder -> {
                 holder.bind(items[position]) {
                     items.removeAt(position)
-                    notifyDataSetChanged()
+                    notifyItemRemoved(position)
                 }
             }
         }
@@ -52,7 +52,7 @@ class MovieFavRecycleAdapter(
         fun bind(movieItem: MovieItem, listener: (View) -> Unit) {
             itemTitle.text = movieItem.title
             itemRating.text = movieItem.rating
-            itemButton.setOnClickListener{
+            itemButton.setOnClickListener {
                 listener(itemButton)
             }
 

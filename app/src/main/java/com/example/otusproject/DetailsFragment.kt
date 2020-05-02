@@ -20,7 +20,11 @@ class DetailsFragment : Fragment() {
     private lateinit var note: Editable
     private var noteText = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
         retainInstance = true
@@ -34,7 +38,8 @@ class DetailsFragment : Fragment() {
         toolbar!!.title = "Details"
 
         movieItem = arguments?.getParcelable(ITEM)
-        favoriteItems = arguments?.getParcelableArrayList<MovieItem>("FAV_ARRAY") as ArrayList<MovieItem>
+        favoriteItems =
+            arguments?.getParcelableArrayList<MovieItem>("FAV_ARRAY") as ArrayList<MovieItem>
 
         if (favoriteItems.contains(movieItem))
             binding.checkBox.isChecked = true
@@ -47,19 +52,21 @@ class DetailsFragment : Fragment() {
         val rating = binding.rating
         val description = binding.description
 
-        Glide.with(view.context)
-            .load(movieItem?.moviePoster)
-            .into(toolbarImg!!)
+        movieItem?.let {
+            Glide.with(view.context)
+                .load(it.moviePoster)
+                .into(toolbarImg!!)
 
-        title.text = movieItem?.title
-        movieDate.text = movieItem?.year
-        starringActors.text = movieItem?.starring
-        director.text = movieItem?.director
-        rating.text = movieItem?.rating
-        description.text = movieItem?.description
+            title.text = it.title
+            movieDate.text = it.year
+            starringActors.text = it.starring
+            director.text = it.director
+            rating.text = it.rating
+            description.text = it.description
+        }
     }
 
-    fun newInstance (favoriteItems: ArrayList<MovieItem>, item: MovieItem) =
+    fun newInstance(favoriteItems: ArrayList<MovieItem>, item: MovieItem) =
         DetailsFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(FAV_ARRAY, favoriteItems)

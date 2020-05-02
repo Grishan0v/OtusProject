@@ -18,7 +18,7 @@ class MovieRecyclerAdapter(
     private val items: List<MovieItem>,
     val listener: (MovieItem) -> Unit,
     val longListener: (MovieItem) -> Boolean
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieViewHolder(
@@ -54,7 +54,11 @@ class MovieRecyclerAdapter(
         private val itemTitle: TextView? = itemView.item_movie_name_id
         private val itemPoster: ImageView = itemView.item_poster_id
 
-        fun bind(movieItem: MovieItem, listener: (MovieItem) -> Unit, longListener: (MovieItem) -> Boolean) {
+        fun bind(
+            movieItem: MovieItem,
+            listener: (MovieItem) -> Unit,
+            longListener: (MovieItem) -> Boolean
+        ) {
             itemTitle?.text = movieItem.title
 
             itemView.setOnClickListener {
