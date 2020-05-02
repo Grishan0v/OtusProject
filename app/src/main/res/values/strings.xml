@@ -36,4 +36,12 @@
     <string name="no">No</string>
     <string name="night">Night Mode</string>
     <string name="toastAddedToFav">Added to Favorite</string>
+    <string name="toasAlreadyInFav">Already in Favorite</string>
+    <string name="deleteBtn">delete</string>
+    <string name="home_menu_item">Home</string>
+    <string name="favorite_item">Favorite</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="invite_item">Invite</string>
 </resources>

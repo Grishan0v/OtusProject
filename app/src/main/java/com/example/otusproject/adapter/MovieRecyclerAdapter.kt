@@ -1,22 +1,20 @@
-package com.example.otusproject
+package com.example.otusproject.adapter
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
+import com.example.otusproject.MovieItem
+import com.example.otusproject.R
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieRecyclerAdapter(
-    private val context: Context,
+    private val context: LayoutInflater,
     private val items: List<MovieItem>,
     val listener: (MovieItem) -> Unit,
     val longListener: (MovieItem) -> Boolean
@@ -24,7 +22,11 @@ class MovieRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.movie_item_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.movie_item_layout,
+                parent,
+                false
+            )
         )
     }
 

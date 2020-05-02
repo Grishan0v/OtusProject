@@ -1,6 +1,5 @@
-package com.example.otusproject
+package com.example.otusproject.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.otusproject.MovieItem
+import com.example.otusproject.R
 import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
 
 class MovieFavRecycleAdapter(
-    private val context: Context,
+    private val context: LayoutInflater,
     private var items: ArrayList<MovieItem>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MovieFavViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.movie_item_favorite_layout, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.movie_item_favorite_layout,
+                parent,
+                false
+            )
         )
     }
 
@@ -38,10 +43,9 @@ class MovieFavRecycleAdapter(
         return items.size
     }
 
-
     class MovieFavViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemTitle: TextView = itemView.movieName
-        private val itemPoster: ImageView = itemView.moviePoster
+        private val itemPoster: ImageView = itemView.moviePoster1
         private val itemRating: TextView = itemView.movieRating
         private val itemButton: Button = itemView.deleteBtn
 
