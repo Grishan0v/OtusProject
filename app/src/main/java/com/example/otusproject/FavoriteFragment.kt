@@ -19,7 +19,6 @@ class FavoriteFragment : Fragment() {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val view = binding.root
         favoriteItems = arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
-        retainInstance = true
         return view
     }
 

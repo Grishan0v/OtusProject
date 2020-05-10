@@ -1,7 +1,6 @@
 package com.example.otusproject
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +16,6 @@ class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var favoriteItems: ArrayList<MovieItem>
     private var movieItem: MovieItem? = null
-    private lateinit var note: Editable
-    private var noteText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +23,7 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        val view = binding.root
-        retainInstance = true
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +34,7 @@ class DetailsFragment : Fragment() {
 
         movieItem = arguments?.getParcelable(ITEM)
         favoriteItems =
-            arguments?.getParcelableArrayList<MovieItem>("FAV_ARRAY") as ArrayList<MovieItem>
+            arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
 
         if (favoriteItems.contains(movieItem))
             binding.checkBox.isChecked = true

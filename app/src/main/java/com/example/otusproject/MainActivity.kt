@@ -6,6 +6,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.otusproject.databinding.ActivityMainBinding
+private const val FAV_ARRAY = "FAV_ARRAY"
+private const val HOME = "HOME"
+private const val DETAILS = "DETAILS"
+private const val FAVORITE = "FAVORITE"
+private const val INVITE = "INVITE"
 
 class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     private lateinit var homeFragment: HomeFragment
@@ -13,7 +18,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     private lateinit var detailsFragment: DetailsFragment
     private lateinit var inviteFragment: InviteFragment
     private lateinit var binding: ActivityMainBinding
-    private var favoritesItems: ArrayList<MovieItem> = ArrayList()
+    private var favoriteItems: ArrayList<MovieItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +32,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home_menu_item -> startFragment(homeFragment)
-                R.id.favorite_menu_item -> startFragment(favoriteFragment.newInstance(favoritesItems))
+                R.id.favorite_menu_item -> startFragment(favoriteFragment.newInstance(favoriteItems))
                 R.id.invite_menu_item -> startFragment(inviteFragment)
             }
             true
@@ -35,8 +40,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     }
 
     private fun initFragments() {
-        homeFragment = HomeFragment().newInstance(favoritesItems)
-        favoriteFragment = FavoriteFragment().newInstance(favoritesItems)
+        homeFragment = HomeFragment().newInstance(favoriteItems)
+        favoriteFragment = FavoriteFragment().newInstance(favoriteItems)
         detailsFragment = DetailsFragment()
         inviteFragment = InviteFragment()
     }
@@ -67,30 +72,34 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     }
 
     override fun favoritesRefresh(favorites: ArrayList<MovieItem>) {
-        favoritesItems = favorites
+        favoriteItems = favorites
+    }
+
+    override fun startDetailFragment(item: MovieItem) {
+        startFragment(DetailsFragment().newInstance(favoriteItems, item))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList("FAV_ARRAY", favoritesItems)
+        outState.putParcelableArrayList(FAV_ARRAY, favoriteItems)
         when (this.supportFragmentManager.findFragmentById(R.id.frame_home_screen)) {
-            is HomeFragment -> outState.putString("IS_ACTIVE", "HOME")
-            is DetailsFragment -> outState.putString("IS_ACTIVE", "DETAILS")
-            is FavoriteFragment -> outState.putString("IS_ACTIVE", "FAVORITE")
-            is InviteFragment -> outState.putString("IS_ACTIVE", "INVITE")
+            is HomeFragment -> outState.putString("IS_ACTIVE", HOME)
+            is DetailsFragment -> outState.putString("IS_ACTIVE", DETAILS)
+            is FavoriteFragment -> outState.putString("IS_ACTIVE", FAVORITE)
+            is InviteFragment -> outState.putString("IS_ACTIVE", INVITE)
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        favoritesItems = savedInstanceState
-            .getParcelableArrayList<MovieItem>("FAV_ARRAY") as ArrayList<MovieItem>
+        favoriteItems = savedInstanceState
+            .getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
 
         when (savedInstanceState.getString("IS_ACTIVE")) {
-            "HOME" -> startFragment(homeFragment)
-            "DETAILS" -> startFragment(detailsFragment)
-            "FAVORITE" -> startFragment(favoriteFragment.newInstance(favoritesItems))
-            "INVITE" -> startFragment(inviteFragment)
+            HOME -> startFragment(homeFragment)
+            DETAILS -> startFragment(detailsFragment)
+            FAVORITE -> startFragment(favoriteFragment.newInstance(favoriteItems))
+            INVITE -> startFragment(inviteFragment)
 
         }
     }

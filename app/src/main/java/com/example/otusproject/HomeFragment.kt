@@ -25,8 +25,6 @@ class HomeFragment : Fragment() {
             binding.dayNightBtn.text = getString(R.string.day)
          else binding.dayNightBtn.text = getString(R.string.night)
 
-        retainInstance = true
-
         return view
         }
 
@@ -61,18 +59,14 @@ class HomeFragment : Fragment() {
                     else {
                         favoriteItems.add(it)
                         showToastMessage(getString(R.string.toastAddedToFav))
-                        (activity as MainActivity).favoritesRefresh(favoriteItems)
+                        (activity as? OnRefresh)?.favoritesRefresh(favoriteItems)
                     }
                     return@setOnLongClickListener true
                 })
     }
 
     private fun startDetailsFragment(item: MovieItem) {
-        fragmentManager?.beginTransaction()?.apply {
-            replace(R.id.frame_home_screen, DetailsFragment().newInstance(favoriteItems, item))
-            addToBackStack("transfer")
-            commit()
-        }
+        (activity as? OnRefresh)?.startDetailFragment(item)
     }
 
     private fun createMovieSet():  ArrayList<MovieItem> {
@@ -128,7 +122,9 @@ class HomeFragment : Fragment() {
 
     interface OnRefresh {
         fun favoritesRefresh(favorites: ArrayList<MovieItem>)
+        fun startDetailFragment(item: MovieItem)
     }
+
 }
 
 
