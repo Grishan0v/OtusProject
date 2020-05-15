@@ -8,13 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.otusproject.adapter.MovieRecyclerAdapter
+import com.example.otusproject.data.App
 import com.example.otusproject.databinding.FragmentHomeBinding
+import kotlinx.android.synthetic.main.fragment_home.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val FAV_ARRAY = "FAV_ARRAY"
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var favoriteItems: ArrayList<MovieItem>
+    private val items = ArrayList<MovieItem>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -30,6 +36,29 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        App.instance.api.getMoviesFromDB()
+            .enqueue(object: Callback<List<MovieItemModel>> {
+                override fun onFailure(call: Call<List<MovieItemModel>>, t: Throwable) {
+
+                }
+                override fun onResponse(
+                    call: Call<List<MovieItemModel>>,
+                    response: Response<List<MovieItemModel>>
+                ) {
+                    if(response.isSuccessful){
+                        response.body()?.forEach {
+                            items.add(
+                                MovieItem(
+                                    it.title,
+                                    it.overview,
+                                    it.posterPath,
+                                    it.voteAverage,
+                                    it.releaseDate)
+                            )
+                        }
+                    }
+                }
+            })
         initRecyclerView()
 
         binding.dayNightBtn.setOnClickListener {
@@ -45,8 +74,6 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
         binding.recyclerViewId.addItemDecoration(SpacingItemDecoration(30))
-        val items = createMovieSet()
-
         binding.recyclerViewId.adapter =
             MovieRecyclerAdapter(
                 LayoutInflater.from(
@@ -67,45 +94,6 @@ class HomeFragment : Fragment() {
 
     private fun startDetailsFragment(item: MovieItem) {
         (activity as? OnRefresh)?.startDetailFragment(item)
-    }
-
-    private fun createMovieSet():  ArrayList<MovieItem> {
-        val movieList = ArrayList<MovieItem>()
-
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName1),
-                getString(R.string.movie1Description1),
-                "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie1),
-                getString(R.string.dateMovie1),
-                getString(R.string.directorMovie1),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName2),
-                getString(R.string.movie1Description2),
-                "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie2),
-                getString(R.string.dateMovie2),
-                getString(R.string.directorMovie2),
-                getString(R.string.actorsMovie2)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName3),
-                getString(R.string.movie1Description3),
-                "https://m.media-amazon.com/images/M/MV5BMGUwZjliMTAtNzAxZi00MWNiLWE2NzgtZGUxMGQxZjhhNDRiXkEyXkFqcGdeQXVyNjU1NzU3MzE@._V1_SY1000_SX675_AL_.jpg",
-                getString(R.string.ratingMovie3),
-                getString(R.string.dateMovie3),
-                getString(R.string.directorMovie3),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        return movieList
     }
 
     private fun showToastMessage(message: String) {

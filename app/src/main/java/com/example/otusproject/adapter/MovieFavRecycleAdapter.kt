@@ -51,7 +51,7 @@ class MovieFavRecycleAdapter(
 
         fun bind(movieItem: MovieItem, listener: (View) -> Unit) {
             itemTitle.text = movieItem.title
-            itemRating.text = movieItem.rating
+            itemRating.text = movieItem.voteAverage.toString()
             itemButton.setOnClickListener {
                 listener(itemButton)
             }
@@ -62,7 +62,7 @@ class MovieFavRecycleAdapter(
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOption)
-                .load(movieItem.moviePoster)
+                .load("https://image.tmdb.org/t/p/w500"+movieItem.posterPath)
                 .into(itemPoster)
         }
     }

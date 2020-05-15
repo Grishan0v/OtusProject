@@ -42,22 +42,18 @@ class DetailsFragment : Fragment() {
         val toolbarImg = binding.moviePoster
         val title = binding.title
         val movieDate = binding.movieReleaseDate
-        val starringActors = binding.starringActors
-        val director = binding.director
         val rating = binding.rating
         val description = binding.description
 
         movieItem?.let {
             Glide.with(view.context)
-                .load(it.moviePoster)
+                .load(it.posterPath)
                 .into(toolbarImg!!)
 
             title.text = it.title
-            movieDate.text = it.year
-            starringActors.text = it.starring
-            director.text = it.director
-            rating.text = it.rating
-            description.text = it.description
+            movieDate.text = it.releaseDate
+            rating.text = it.voteAverage.toString()
+            description.text = it.overview
         }
     }
 

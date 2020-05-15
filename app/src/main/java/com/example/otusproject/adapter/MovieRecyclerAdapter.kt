@@ -75,7 +75,7 @@ class MovieRecyclerAdapter(
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOption)
-                .load(movieItem.moviePoster)
+                .load(movieItem.posterPath)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)// сохраняем загруженную картинку в кэш, должно идти после load
                 .into(itemPoster)
         }
