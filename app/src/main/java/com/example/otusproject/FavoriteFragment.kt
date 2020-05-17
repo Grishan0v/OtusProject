@@ -13,12 +13,12 @@ private const val FAV_ARRAY = "FAV_ARRAY"
 
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
-    private lateinit var favoriteItems: ArrayList<MovieItem>
+    private lateinit var favoriteItems: ArrayList<Result>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val view = binding.root
-        favoriteItems = arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
+        favoriteItems = arguments?.getParcelableArrayList<Result>(FAV_ARRAY) as ArrayList<Result>
         return view
     }
 
@@ -34,7 +34,7 @@ class FavoriteFragment : Fragment() {
             MovieFavRecycleAdapter(LayoutInflater.from(activity), favoriteItems)
     }
 
-    fun newInstance (favoriteItems: ArrayList<MovieItem>) =
+    fun newInstance (favoriteItems: ArrayList<Result>) =
         FavoriteFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(FAV_ARRAY, favoriteItems)

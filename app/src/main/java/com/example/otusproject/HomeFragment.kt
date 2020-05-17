@@ -1,6 +1,7 @@
 package com.example.otusproject
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +20,13 @@ private const val FAV_ARRAY = "FAV_ARRAY"
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var favoriteItems: ArrayList<MovieItem>
-    private val items = ArrayList<MovieItem>()
+    private lateinit var favoriteItems: ArrayList<Result>
+    private val items = mutableListOf<Result>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
-        favoriteItems = arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
+        favoriteItems = arguments?.getParcelableArrayList<Result>(FAV_ARRAY) as ArrayList<Result>
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             binding.dayNightBtn.text = getString(R.string.day)
@@ -36,30 +37,27 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.instance.api.getMoviesFromDB()
-            .enqueue(object: Callback<List<MovieItemModel>> {
-                override fun onFailure(call: Call<List<MovieItemModel>>, t: Throwable) {
+        initRecyclerView()
 
+        App.instance.api.getMoviesFromDB()
+            .enqueue(object: Callback<MoviePage> {
+                override fun onFailure(call: Call<MoviePage>, t: Throwable) {
+                    Log.d("tag", "We have an error");
                 }
                 override fun onResponse(
-                    call: Call<List<MovieItemModel>>,
-                    response: Response<List<MovieItemModel>>
+                    call: Call<MoviePage>,
+                    response: Response<MoviePage>
                 ) {
                     if(response.isSuccessful){
-                        response.body()?.forEach {
-                            items.add(
-                                MovieItem(
-                                    it.title,
-                                    it.overview,
-                                    it.posterPath,
-                                    it.voteAverage,
-                                    it.releaseDate)
-                            )
+                        response.body()?.apply {
+                            this.results.forEach {
+                                items.add(it)
+                            }
                         }
                     }
+                    recycler_view_id.adapter?.notifyDataSetChanged()
                 }
             })
-        initRecyclerView()
 
         binding.dayNightBtn.setOnClickListener {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -78,7 +76,7 @@ class HomeFragment : Fragment() {
             MovieRecyclerAdapter(
                 LayoutInflater.from(
                     activity
-                ), items, setOnClickListener@{
+                ), items as ArrayList<Result>, setOnClickListener@{
                     startDetailsFragment(it)
                 }, setOnLongClickListener@{
                     if (favoriteItems.contains(it))
@@ -90,9 +88,10 @@ class HomeFragment : Fragment() {
                     }
                     return@setOnLongClickListener true
                 })
+
     }
 
-    private fun startDetailsFragment(item: MovieItem) {
+    private fun startDetailsFragment(item: Result) {
         (activity as? OnRefresh)?.startDetailFragment(item)
     }
 
@@ -101,7 +100,7 @@ class HomeFragment : Fragment() {
         toast.show()
     }
 
-    fun newInstance (favoriteItems: ArrayList<MovieItem>) =
+    fun newInstance (favoriteItems: ArrayList<Result>) =
         HomeFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(FAV_ARRAY, favoriteItems)
@@ -109,8 +108,8 @@ class HomeFragment : Fragment() {
         }
 
     interface OnRefresh {
-        fun favoritesRefresh(favorites: ArrayList<MovieItem>)
-        fun startDetailFragment(item: MovieItem)
+        fun favoritesRefresh(favorites: ArrayList<Result>)
+        fun startDetailFragment(item: Result)
     }
 
 }

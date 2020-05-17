@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     private lateinit var detailsFragment: DetailsFragment
     private lateinit var inviteFragment: InviteFragment
     private lateinit var binding: ActivityMainBinding
-    private var favoriteItems: ArrayList<MovieItem> = ArrayList()
+    private var favoriteItems: ArrayList<Result> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +71,11 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
         }
     }
 
-    override fun favoritesRefresh(favorites: ArrayList<MovieItem>) {
+    override fun favoritesRefresh(favorites: ArrayList<Result>) {
         favoriteItems = favorites
     }
 
-    override fun startDetailFragment(item: MovieItem) {
+    override fun startDetailFragment(item: Result) {
         startFragment(DetailsFragment().newInstance(favoriteItems, item))
     }
 
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         favoriteItems = savedInstanceState
-            .getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
+            .getParcelableArrayList<Result>(FAV_ARRAY) as ArrayList<Result>
 
         when (savedInstanceState.getString("IS_ACTIVE")) {
             HOME -> startFragment(homeFragment)

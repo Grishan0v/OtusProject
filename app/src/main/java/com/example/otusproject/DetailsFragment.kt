@@ -14,8 +14,8 @@ private const val ITEM = "MOVIE_ITEM"
 class DetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
-    private lateinit var favoriteItems: ArrayList<MovieItem>
-    private var movieItem: MovieItem? = null
+    private lateinit var favoriteItems: ArrayList<Result>
+    private var movieItem: Result? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +28,12 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        favoriteItems = ArrayList()
 
         val toolbar = binding.collapsingToolbar
         toolbar!!.title = "Details"
 
         movieItem = arguments?.getParcelable(ITEM)
-        favoriteItems =
-            arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
 
         if (favoriteItems.contains(movieItem))
             binding.checkBox.isChecked = true
@@ -47,7 +46,7 @@ class DetailsFragment : Fragment() {
 
         movieItem?.let {
             Glide.with(view.context)
-                .load(it.posterPath)
+                .load("https://image.tmdb.org/t/p/w500" + it.posterPath)
                 .into(toolbarImg!!)
 
             title.text = it.title
@@ -57,7 +56,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    fun newInstance(favoriteItems: ArrayList<MovieItem>, item: MovieItem) =
+    fun newInstance(favoriteItems: ArrayList<Result>, item: Result) =
         DetailsFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(FAV_ARRAY, favoriteItems)

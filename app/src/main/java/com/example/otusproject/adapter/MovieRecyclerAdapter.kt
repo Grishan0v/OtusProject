@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.example.otusproject.MovieItem
 import com.example.otusproject.R
+import com.example.otusproject.Result
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieRecyclerAdapter(
     private val context: LayoutInflater,
-    private val items: List<MovieItem>,
-    val listener: (MovieItem) -> Unit,
-    val longListener: (MovieItem) -> Boolean
+    private val items: ArrayList<Result>,
+    val listener: (Result) -> Unit,
+    val longListener: (Result) -> Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -55,9 +55,9 @@ class MovieRecyclerAdapter(
         private val itemPoster: ImageView = itemView.item_poster_id
 
         fun bind(
-            movieItem: MovieItem,
-            listener: (MovieItem) -> Unit,
-            longListener: (MovieItem) -> Boolean
+            movieItem: Result,
+            listener: (Result) -> Unit,
+            longListener: (Result) -> Boolean
         ) {
             itemTitle?.text = movieItem.title
 
@@ -75,7 +75,7 @@ class MovieRecyclerAdapter(
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOption)
-                .load(movieItem.posterPath)
+                .load("https://image.tmdb.org/t/p/w500" + movieItem.posterPath)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)// сохраняем загруженную картинку в кэш, должно идти после load
                 .into(itemPoster)
         }
