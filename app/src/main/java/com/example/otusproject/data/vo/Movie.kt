@@ -1,9 +1,12 @@
-package com.example.otusproject
+package com.example.otusproject.data.vo
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class MovieItemModel(
+@Parcelize
+data class Movie(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
@@ -23,7 +26,7 @@ data class MovieItemModel(
     val title: String,
     val video: Boolean,
     @SerializedName("vote_average")
-    val voteAverage: Int,
+    val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+) : Parcelable
