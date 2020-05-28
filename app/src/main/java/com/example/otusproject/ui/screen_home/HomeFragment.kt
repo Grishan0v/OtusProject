@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
         viewModel!!.initMovieList()
+        viewModel!!.initFavList()
         viewModel!!.movies.observe(this.viewLifecycleOwner, Observer { movies -> adapter?.setItems(movies)})
         viewModel!!.error.observe(this.viewLifecycleOwner, Observer { error -> Toast.makeText(context, error, Toast.LENGTH_SHORT).show()})
 
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
             setOnLongClickListener@{
                 viewModel!!.addToFavorites(it)
                 showToastMessage("Added to Favorite")
+                viewModel!!.initFavList()
                 return@setOnLongClickListener true })
         recycler_view_id.adapter = adapter
     }

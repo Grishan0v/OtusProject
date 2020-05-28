@@ -1,29 +1,46 @@
 package com.example.otusproject.data.api
 
 import android.app.Application
+import android.util.Log
+import com.example.otusproject.data.database.fav_db.AppDbFav
+import com.example.otusproject.data.database.fav_db.DbFav
+import com.example.otusproject.data.database.movies_db.AppDb
+import com.example.otusproject.data.database.movies_db.Db
 import com.example.otusproject.data.repository.MovieDBInteractor
 import com.example.otusproject.data.repository.MoviesRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class MovieDBClient : Application() {
     lateinit var service:  MovieDbService
     lateinit var interactor:  MovieDBInteractor
+    var roomDb: AppDb? = null
+    var roomDbFav: AppDbFav? = null
     var moviesRepository: MoviesRepository = MoviesRepository()
+
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         initRetrofit()
         initInteractor()
+        initRoomDb()
     }
 
     private fun initInteractor() {
-        interactor = MovieDBInteractor(service, moviesRepository)
+        interactor = MovieDBInteractor(applicationContext, service, moviesRepository)
+    }
+
+    private fun initRoomDb() {
+        Executors.newSingleThreadScheduledExecutor().execute {
+            roomDb = Db.getInstance(this)
+            Log.d("MyTag", roomDb.toString())
+            roomDbFav = DbFav.getInstance(this)
+        }
     }
 
     private  fun initRetrofit(){
