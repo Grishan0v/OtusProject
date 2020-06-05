@@ -20,7 +20,8 @@ class MovieDBInteractor(private val context: Context, private val movieDbService
         val roomDatabase = MovieDBClient.instance.roomDb
         val pref = context.getSharedPreferences("time", Context.MODE_PRIVATE)
 
-        if((Calendar.getInstance().timeInMillis - pref.getLong("time", Calendar.getInstance().timeInMillis))/60000 < 20 ){
+        if(pref.contains("time")
+            && ((Calendar.getInstance().timeInMillis - pref.getLong("time", Calendar.getInstance().timeInMillis))/60000 < 20)){
             databaseWriteExecutor.execute {
                 roomDatabase?.getMovieDao()?.getAll()?.let { callback.onSuccess(it) }
             }
@@ -30,18 +31,18 @@ class MovieDBInteractor(private val context: Context, private val movieDbService
         movieDbService.getMoviesFromDB().enqueue(object : Callback<MovieResponse>{
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                val movieResponse  = mutableListOf<Movie>()
                 if (response.isSuccessful) {
                     response.body()?.apply {
-                        databaseWriteExecutor.execute {
-                            roomDatabase?.getMovieDao()?.insertMovies(this.movies)
-                            pref.edit().let {
-                                it.putLong("time", Calendar.getInstance().timeInMillis).commit()
-                            }
-                        }
+                        movieResponse.addAll(this.movies)
                     }
+
                     databaseWriteExecutor.execute {
+                        roomDatabase?.getMovieDao()?.insertMovies(movieResponse)
+                        pref.edit().putLong("time", Calendar.getInstance().timeInMillis).apply()
                         roomDatabase?.getMovieDao()?.getAll()?.let { callback.onSuccess(it) }
                     }
+                    
                 } else { callback.onError(response.code().toString()+"") }
             }
 
