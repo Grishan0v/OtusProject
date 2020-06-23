@@ -1,34 +1,31 @@
 package com.example.otusproject
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.otusproject.data.vo.Movie
 import com.example.otusproject.databinding.ActivityMainBinding
 import com.example.otusproject.ui.screen_details.DetailsFragment
 import com.example.otusproject.ui.screen_fav.FavoriteFragment
 import com.example.otusproject.ui.screen_home.HomeFragment
+import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import com.example.otusproject.ui.screen_invite.InviteFragment
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
 
 private const val HOME = "HOME"
 private const val DETAILS = "DETAILS"
 private const val FAVORITE = "FAVORITE"
 private const val INVITE = "INVITE"
 
-class MainActivity : AppCompatActivity(), HomeFragment.Transfers {
+class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragment.Reminder {
     private lateinit var homeFragment: HomeFragment
     private lateinit var favoriteFragment: FavoriteFragment
     private lateinit var detailsFragment: DetailsFragment
@@ -42,6 +39,14 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers {
         setContentView(view)
         initFragments()
         startFragment(homeFragment)
+
+        val viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        val id = intent.getIntExtra("MOVIE_ID", 0)
+        if (id > 0) {
+            viewModel.getMovieByid(id)
+            startFragment(detailsFragment)
+        }
+
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -109,4 +114,17 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers {
     override fun detailsTransfer() {
         startFragment(detailsFragment)
     }
+
+    override fun movieRemind(remindTime: Calendar, movie: Movie) {
+        val alarmManager =
+            getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        intent.putExtra("TITLE", movie.title)
+        intent.putExtra("BODY", movie.releaseDate)
+        intent.putExtra("MOVIE_ID", movie.id)
+        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, remindTime.timeInMillis, pendingIntent);
+        Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show()
+    }
+
 }

@@ -38,7 +38,7 @@ class MovieDBInteractor(private val context: Context, private val movieDbService
                     }
 
                     databaseWriteExecutor.execute {
-                        roomDatabase?.getMovieDao()?.insertMovies(movieResponse)
+//                        roomDatabase?.getMovieDao()?.insertMovies(movieResponse)
                         pref.edit().putLong("time", Calendar.getInstance().timeInMillis).apply()
                         roomDatabase?.getMovieDao()?.getAll()?.let { callback.onSuccess(it) }
                     }
@@ -77,6 +77,20 @@ class MovieDBInteractor(private val context: Context, private val movieDbService
         }
     }
 
+    fun getMovieById (id: Int) : Movie? {
+        var movie1 : Movie? = null
+        val roomDatabase = MovieDBClient.instance.roomDb
+        databaseWriteExecutor.execute {
+            roomDatabase?.getMovieDao()?.getAll()?.let {list ->
+                list.forEach { movie ->
+                    if (movie.id == id)
+                        movie1 = movie
+                }
+            }
+        }
+        return movie1
+    }
+
     interface GetMoviesCallback {
         fun onSuccess(movies: List<Movie>)
         fun onError(error: String)
@@ -84,5 +98,8 @@ class MovieDBInteractor(private val context: Context, private val movieDbService
 
     interface GetFavMoviesCallback {
         fun getFavMovies(movies: MutableList<Movie>)
+    }
+    interface GetMovieById {
+       fun getMovieById(movie: Movie)
     }
 }

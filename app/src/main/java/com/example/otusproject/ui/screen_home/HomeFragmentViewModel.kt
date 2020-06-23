@@ -1,5 +1,6 @@
 package com.example.otusproject.ui.screen_home
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,7 @@ class HomeFragmentViewModel: ViewModel() {
     private val errorLiveData = MutableLiveData<String>()
     private val selectedMovieLiveData = MutableLiveData<Movie>()
     private val favoriteLiveData = MutableLiveData<MutableList<Movie>>()
+    private val moviesForSearch = mutableListOf<Movie>()
 
     private val movieDBInteractor = MovieDBClient.instance.interactor
 
@@ -32,6 +34,7 @@ class HomeFragmentViewModel: ViewModel() {
         movieDBInteractor.getMovies(object: MovieDBInteractor.GetMoviesCallback{
             override fun onSuccess(movies: List<Movie>) {
                 moviesLiveData.postValue(movies)
+                moviesForSearch.addAll(movies)
             }
 
             override fun onError(error: String) {
@@ -68,6 +71,8 @@ class HomeFragmentViewModel: ViewModel() {
     fun removeItemFromFavorites(movie: Movie) {
         movieDBInteractor.removeMovieFromFav(movie)
         initFavList()
-
+    }
+    fun getMovieByid(id: Int) {
+        movieDBInteractor.getMovieById(id)?.let { onMovieSelect(it) }
     }
 }

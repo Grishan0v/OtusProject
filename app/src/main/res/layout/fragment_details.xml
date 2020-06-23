@@ -19,31 +19,6 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingDefaultResource">
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_to_favorite"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/rating_txt"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/rating"
-                app:layout_constraintTop_toBottomOf="@+id/rating" />
-
-            <EditText
-                android:id="@+id/notes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/add_your_notes_here"
-                android:inputType="textMultiLine"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="@+id/title"
-                app:layout_constraintStart_toStartOf="@+id/title"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
             <TextView
                 android:id="@+id/title"
@@ -106,15 +81,12 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="@string/description"
                 android:textAllCaps="true"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/notes"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/notes"
-                app:layout_constraintTop_toBottomOf="@+id/notes" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/watchLaterBtn" />
 
             <TextView
                 android:id="@+id/description"
@@ -125,6 +97,16 @@
                 app:layout_constraintEnd_toEndOf="@+id/notes"
                 app:layout_constraintStart_toStartOf="@+id/notes"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <Button
+                android:id="@+id/watchLaterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watch later"
+                app:layout_constraintEnd_toEndOf="@+id/rating_txt"
+                app:layout_constraintStart_toStartOf="@+id/rating_txt"
+                app:layout_constraintTop_toBottomOf="@+id/rating_txt" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
