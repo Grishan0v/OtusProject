@@ -1,12 +1,11 @@
 package com.example.otusproject.ui.screen_home
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.otusproject.data.api.MovieDBClient
-import com.example.otusproject.data.repository.MovieDBInteractor
+import com.example.otusproject.data.api.App
+import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.vo.Movie
 
 class HomeFragmentViewModel: ViewModel() {
@@ -16,7 +15,7 @@ class HomeFragmentViewModel: ViewModel() {
     private val favoriteLiveData = MutableLiveData<MutableList<Movie>>()
     private val moviesForSearch = mutableListOf<Movie>()
 
-    private val movieDBInteractor = MovieDBClient.instance.interactor
+    private val movieDBInteractor = App.instance.interactor
 
     val movies: LiveData<List<Movie>>
         get() = moviesLiveData
@@ -31,7 +30,7 @@ class HomeFragmentViewModel: ViewModel() {
         get() = favoriteLiveData
 
     fun initMovieList() {
-        movieDBInteractor.getMovies(object: MovieDBInteractor.GetMoviesCallback{
+        movieDBInteractor.getMovies(object: MovieDbUseCase.GetMoviesCallback{
             override fun onSuccess(movies: List<Movie>) {
                 moviesLiveData.postValue(movies)
                 moviesForSearch.addAll(movies)
@@ -44,7 +43,7 @@ class HomeFragmentViewModel: ViewModel() {
     }
 
     fun initFavList() {
-        movieDBInteractor.getFavMovies(object: MovieDBInteractor.GetFavMoviesCallback{
+        movieDBInteractor.getFavMovies(object: MovieDbUseCase.GetFavMoviesCallback{
             override fun getFavMovies(movies: MutableList<Movie>) {
                 favoriteLiveData.postValue(movies)
             }

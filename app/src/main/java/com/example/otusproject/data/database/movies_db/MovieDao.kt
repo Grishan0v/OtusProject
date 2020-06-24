@@ -19,4 +19,6 @@ interface MovieDao {
     @Query("SELECT * FROM movie_table")
     fun getAll(): List<Movie>
 
+    @Query("DELETE FROM movie_table")
+    fun nukeAll()
 }

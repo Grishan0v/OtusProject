@@ -6,7 +6,7 @@ import com.example.otusproject.data.database.fav_db.AppDbFav
 import com.example.otusproject.data.database.fav_db.DbFav
 import com.example.otusproject.data.database.movies_db.AppDb
 import com.example.otusproject.data.database.movies_db.Db
-import com.example.otusproject.data.repository.MovieDBInteractor
+import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.repository.MoviesRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,23 +16,25 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class App : Application() {
+    private lateinit var moviesRepository: MoviesRepository
     lateinit var service:  MovieDbService
-    lateinit var interactor:  MovieDBInteractor
+    lateinit var interactor:  MovieDbUseCase
+
     var roomDb: AppDb? = null
     var roomDbFav: AppDbFav? = null
-    private var moviesRepository: MoviesRepository = MoviesRepository()
 
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        initRetrofit()
-        initInteractor()
         initRoomDb()
+        initRetrofit()
+        moviesRepository = MoviesRepository(roomDb!!.getMovieDao())
+        initInteractor()
     }
 
     private fun initInteractor() {
-        interactor = MovieDBInteractor(applicationContext, service, moviesRepository)
+        interactor = MovieDbUseCase(applicationContext, service, moviesRepository)
     }
 
     private fun initRoomDb() {
