@@ -2,35 +2,29 @@ package com.example.otusproject.ui.screen_details
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context.ALARM_SERVICE
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.otusproject.MainActivity
 import com.example.otusproject.R
-import com.example.otusproject.data.vo.Movie
+import com.example.otusproject.data.vo.JsonMovie
+import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
-import kotlin.math.min
-import android.app.AlarmManager as AlarmManager
 
 
 class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private var viewModel: HomeFragmentViewModel? = null
     private var currentTime = Calendar.getInstance()
     private var reminderTime: Calendar  = Calendar.getInstance()
-    private var movie: Movie? = null
+    private lateinit var movieItem: MovieItem
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_details, container, false)
@@ -43,7 +37,7 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
         viewModel!!.selectedMovie.observe(this.viewLifecycleOwner, Observer {
                 selectedMovie ->
 
-        movie = selectedMovie
+        movieItem = selectedMovie
         val toolbar = collapsingToolbar
         toolbar!!.title = "Details"
 
@@ -90,12 +84,11 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         reminderTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
         reminderTime.set(Calendar.MINUTE, minute)
-        val title =  movie!!.title
-        (activity as? Reminder)?.movieRemind(reminderTime,movie!!)
+        (activity as? Reminder)?.movieRemind(reminderTime, movieItem)
     }
 
     interface Reminder {
-        fun movieRemind(remindTime: Calendar, movie: Movie)
+        fun movieRemind(remindTime: Calendar, movie: MovieItem)
     }
 
 }

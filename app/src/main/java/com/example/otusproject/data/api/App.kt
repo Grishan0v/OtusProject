@@ -2,10 +2,8 @@ package com.example.otusproject.data.api
 
 import android.app.Application
 import android.util.Log
-import com.example.otusproject.data.database.fav_db.AppDbFav
-import com.example.otusproject.data.database.fav_db.DbFav
-import com.example.otusproject.data.database.movies_db.AppDb
-import com.example.otusproject.data.database.movies_db.Db
+import com.example.otusproject.data.database.AppDb
+import com.example.otusproject.data.database.Db
 import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.repository.MoviesRepository
 import okhttp3.Interceptor
@@ -17,11 +15,10 @@ import java.util.concurrent.TimeUnit
 
 class App : Application() {
     private lateinit var moviesRepository: MoviesRepository
-    lateinit var service:  MovieDbService
-    lateinit var interactor:  MovieDbUseCase
+    private lateinit var service:  MovieDbService
+    lateinit var useCase:  MovieDbUseCase
 
-    var roomDb: AppDb? = null
-    var roomDbFav: AppDbFav? = null
+    private var roomDb: AppDb? = null
 
 
     override fun onCreate() {
@@ -30,18 +27,17 @@ class App : Application() {
         initRoomDb()
         initRetrofit()
         moviesRepository = MoviesRepository(roomDb!!.getMovieDao())
-        initInteractor()
+        initUseCase()
     }
 
-    private fun initInteractor() {
-        interactor = MovieDbUseCase(applicationContext, service, moviesRepository)
+    private fun initUseCase() {
+        useCase = MovieDbUseCase(applicationContext, service, moviesRepository)
     }
 
     private fun initRoomDb() {
         Executors.newSingleThreadScheduledExecutor().execute {
             roomDb = Db.getInstance(this)
             Log.d("MyTag", roomDb.toString())
-            roomDbFav = DbFav.getInstance(this)
         }
     }
 

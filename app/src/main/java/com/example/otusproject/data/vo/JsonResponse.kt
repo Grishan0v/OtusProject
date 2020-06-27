@@ -3,10 +3,10 @@ package com.example.otusproject.data.vo
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieResponse(
+data class JsonResponse(
     val page: Int,
     @SerializedName("results")
-    val movies: List<Movie>,
+    val jsonMovies: List<JsonMovie>,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")

@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.otusproject.R
-import com.example.otusproject.data.vo.Movie
+import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.SpacingItemDecoration
+import com.example.otusproject.data.vo.MovieItem
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-    private val items = mutableListOf<Movie>()
+    private val items = mutableListOf<JsonMovie>()
     private var viewModel: HomeFragmentViewModel? = null
     private var adapter: MovieRecyclerAdapter? = null
 
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
        recycler_view_id.addItemDecoration(SpacingItemDecoration(30))
-        adapter = MovieRecyclerAdapter(LayoutInflater.from(activity), items as ArrayList<Movie>,
+        adapter = MovieRecyclerAdapter(LayoutInflater.from(activity), items as MutableList<MovieItem>,
             setOnClickListener@{
                 viewModel!!.onMovieSelect(it)
                 (activity as? Transfers)?.detailsTransfer()

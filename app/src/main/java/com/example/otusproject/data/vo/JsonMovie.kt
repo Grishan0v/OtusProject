@@ -7,14 +7,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "movie_table")
-data class Movie(
+//@Entity(tableName = "movie_table")
+data class JsonMovie(
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "id")
     val id: Int,
     @SerializedName("original_language")
     val originalLanguage: String,

@@ -6,34 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.otusproject.data.api.App
 import com.example.otusproject.data.repository.MovieDbUseCase
-import com.example.otusproject.data.vo.Movie
+import com.example.otusproject.data.vo.MovieItem
 
 class HomeFragmentViewModel: ViewModel() {
-    private val moviesLiveData = MutableLiveData<List<Movie>>()
+    private val moviesLiveData = MutableLiveData<List<MovieItem>>()
     private val errorLiveData = MutableLiveData<String>()
-    private val selectedMovieLiveData = MutableLiveData<Movie>()
-    private val favoriteLiveData = MutableLiveData<MutableList<Movie>>()
-    private val moviesForSearch = mutableListOf<Movie>()
+    private val selectedMovieLiveData = MutableLiveData<MovieItem>()
+    private val favoriteLiveData = MutableLiveData<MutableList<MovieItem>>()
 
-    private val movieDBInteractor = App.instance.interactor
+    private val movieDbUseCase = App.instance.useCase
 
-    val movies: LiveData<List<Movie>>
+    val movies: LiveData<List<MovieItem>>
         get() = moviesLiveData
 
     val error : LiveData<String>
         get() = errorLiveData
 
-    val selectedMovie : LiveData<Movie>
+    val selectedMovie : LiveData<MovieItem>
         get() = selectedMovieLiveData
 
-    val favorites : LiveData<MutableList<Movie>>
+    val favorites : LiveData<MutableList<MovieItem>>
         get() = favoriteLiveData
 
     fun initMovieList() {
-        movieDBInteractor.getMovies(object: MovieDbUseCase.GetMoviesCallback{
-            override fun onSuccess(movies: List<Movie>) {
+        movieDbUseCase.getMovies(object: MovieDbUseCase.GetMoviesCallback {
+            override fun onSuccess(movies: List<MovieItem>) {
                 moviesLiveData.postValue(movies)
-                moviesForSearch.addAll(movies)
             }
 
             override fun onError(error: String) {
@@ -43,21 +41,20 @@ class HomeFragmentViewModel: ViewModel() {
     }
 
     fun initFavList() {
-        movieDBInteractor.getFavMovies(object: MovieDbUseCase.GetFavMoviesCallback{
-            override fun getFavMovies(movies: MutableList<Movie>) {
+        movieDbUseCase.getFavorites(object : MovieDbUseCase.GetFavMoviesCallback {
+            override fun onSuccess(movies: MutableList<MovieItem>) {
                 favoriteLiveData.postValue(movies)
             }
-
         })
     }
 
-    fun onMovieSelect(selectedMovie: Movie) {
+    fun onMovieSelect(selectedMovie: MovieItem) {
         selectedMovieLiveData.postValue(selectedMovie)
     }
 
-    fun addToFavorites(movie: Movie) {
-        movieDBInteractor.putMovieToFav(movie)
-        initFavList()
+    fun addToFavorites(movie: MovieItem) {
+        movie.isFavorite = true
+        movieDbUseCase.refreshItem(movie)
     }
 
     fun onThemeChange() {
@@ -67,11 +64,11 @@ class HomeFragmentViewModel: ViewModel() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
-    fun removeItemFromFavorites(movie: Movie) {
-        movieDBInteractor.removeMovieFromFav(movie)
-        initFavList()
+    fun removeItemFromFavorites(movie: MovieItem) {
+        movieDbUseCase.removeMovieFromFav(movie)
     }
-    fun getMovieByid(id: Int) {
-        movieDBInteractor.getMovieById(id)?.let { onMovieSelect(it) }
+
+    fun showDetailsFromNotification(id: Int) {
+        selectedMovieLiveData.postValue(movieDbUseCase.getById(id))
     }
 }
