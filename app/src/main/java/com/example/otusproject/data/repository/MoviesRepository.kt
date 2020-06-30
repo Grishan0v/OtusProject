@@ -2,7 +2,6 @@ package com.example.otusproject.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import com.example.otusproject.data.api.MovieDbService
 import com.example.otusproject.data.database.MovieDao
 import com.example.otusproject.data.vo.JsonMovie
@@ -82,8 +81,6 @@ class MoviesRepository (private val movieDao: MovieDao){
     }
 
     private fun insertListRoom(movies: List<MovieItem>) {
-        Log.d("mTag", movies.size
-            .toString()+ " inserted in room")
        databaseThreadPool.execute {
            movieDao.insertAll(movies)
        }

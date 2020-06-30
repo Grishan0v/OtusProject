@@ -2,14 +2,17 @@ package com.example.otusproject.data
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
+import com.example.otusproject.R
 import com.example.otusproject.data.api.MovieDbService
 import com.example.otusproject.data.database.AppDb
 import com.example.otusproject.data.database.Db
 import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.repository.MoviesRepository
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.iid.FirebaseInstanceId
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -35,6 +38,21 @@ class App : Application() {
         initUseCase()
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         FirebaseCrashlytics.getInstance().setUserId("dev-01")
+
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("mTAG", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new Instance ID token
+                val token = task.result?.token
+
+                // Log and toast
+                Log.d("mTAG", token)
+                Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+            })
     }
 
     private fun initUseCase() {
