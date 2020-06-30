@@ -7,28 +7,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.otusproject.MainActivity
 import com.example.otusproject.R
 import com.example.otusproject.data.App
-import com.example.otusproject.data.vo.MovieItem
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService : FirebaseMessagingService(){
     private val movieDbUseCase = App.instance.useCase
-    private lateinit var item :MovieItem
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onMessageReceived(p0: RemoteMessage) {
-//        super.onMessageReceived(p0)
         for ((key, value) in p0.data.entries) {
             Log.d("mTAG", "key = $key, value = $value")
         }
-        item = movieDbUseCase.getById(p0.data["MOVIE_ID"]!!.toInt())
-        Log.d("mTAG", item.title)
         sendNotification(p0)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun sendNotification(p0: RemoteMessage) {
         val  notificationChannelId = getString(R.string.default_notification_channel_id)
         val notificationManager
@@ -42,26 +40,28 @@ class MessagingService : FirebaseMessagingService(){
                     description = "firebase notifications"
                     notificationManager.createNotificationChannel(this)
                 }
-
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"])
-
-                val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
-                    .setSmallIcon(R.drawable.ic_local_movies)
-                    .setContentTitle(item.title)
-                    .setAutoCancel(true)
-                    .setContentText("Check out this movie!")
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationManager.IMPORTANCE_HIGH)
-
-                val notificationId = System.currentTimeMillis().toInt()
-                notificationManager.notify(notificationId, notificationBuilder.build())
             }
         }
+
+        val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"])
+
+        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
+            .setSmallIcon(R.drawable.ic_local_movies)
+            .setContentTitle(p0.notification?.title)
+            .setAutoCancel(true)
+            .setContentText("Check out this movie!")
+                    .setContentIntent(pendingIntent)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+
+        val notificationId = System.currentTimeMillis().toInt()
+        notificationManager.notify(notificationId, notificationBuilder.build())
     }
 
     override fun onNewToken(p0: String) {
         Log.i("mTag", "Refreshed token: $p0")
+//        Log.i("mTag", item.title)
+
     }
 }
