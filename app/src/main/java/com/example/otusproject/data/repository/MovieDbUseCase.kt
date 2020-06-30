@@ -17,17 +17,18 @@ class MovieDbUseCase(
     private val context: Context,
     private val movieDbService: MovieDbService,
     private val moviesRepository: MoviesRepository
-) {
+)  {
 
     fun getMovies(callback: GetMoviesCallback) {
-        moviesRepository.getMovies(movieDbService, context).let {
-            Log.d("mTag", it.size.toString())
-            if (it.isNullOrEmpty()) {
-                callback.onError("Oops, probably network problems")
-            } else {
-                callback.onSuccess(it)
+        moviesRepository.getMovies(movieDbService, context, object : MoviesRepository.OnListReturn {
+            override fun returnSuccess(movies: List<MovieItem>) {
+                if (movies.isNullOrEmpty()) {
+                    callback.onError("Oops, probably network problems")
+                } else {
+                    callback.onSuccess(movies)
+                }
             }
-        }
+        })
     }
 
     fun getFavorites(callback: GetFavMoviesCallback) {
