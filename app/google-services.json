@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "816796209681",
+    "firebase_url": "https://otusproject-1b034.firebaseio.com",
+    "project_id": "otusproject-1b034",
+    "storage_bucket": "otusproject-1b034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816796209681:android:f5a8139f7892b771ed57b0",
+        "android_client_info": {
+          "package_name": "com.example.otusproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816796209681-v85dhh307ddcj813neg4fg89n555ees9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.otusproject",
+            "certificate_hash": "d3fc5279998dcb95405d30d191ea064c5cee7bbe"
+          }
+        },
+        {
+          "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIS3QFhzH6mEvTqOD-tYlUZ6FTYs2phdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

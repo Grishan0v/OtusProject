@@ -1,5 +1,6 @@
 package com.example.otusproject.ui.screen_home
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.example.otusproject.data.App
 import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.vo.MovieItem
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class HomeFragmentViewModel: ViewModel() {
     private val moviesLiveData = MutableLiveData<List<MovieItem>>()
@@ -28,23 +33,32 @@ class HomeFragmentViewModel: ViewModel() {
     val favorites : LiveData<MutableList<MovieItem>>
         get() = favoriteLiveData
 
+    @SuppressLint("CheckResult")
     fun initMovieList() {
         movieDbUseCase.getMovies(object: MovieDbUseCase.GetMoviesCallback {
-            override fun onSuccess(movies: List<MovieItem>) {
-                moviesLiveData.postValue(movies)
+            override fun onSuccess(movies: Single<List<MovieItem>>) {
+                movies.subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe ({ moviesLiveData.postValue(it) },
+                        { errorLiveData.postValue("Error occurred :(") }
+                    )
             }
-
             override fun onError(error: String) {
                 errorLiveData.postValue(error)
             }
         })
     }
 
+    @SuppressLint("CheckResult")
     fun initFavList() {
-        movieDbUseCase.getFavorites(object : MovieDbUseCase.GetFavMoviesCallback {
-            override fun onSuccess(movies: MutableList<MovieItem>) {
-                favoriteLiveData.postValue(movies)
-            }
+        movieDbUseCase.getFavorites()
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe ({
+                favoriteLiveData.postValue(it as MutableList<MovieItem>)
+            },
+        {
+
         })
     }
 
@@ -68,7 +82,15 @@ class HomeFragmentViewModel: ViewModel() {
         movieDbUseCase.removeMovieFromFav(movie)
     }
 
+    @SuppressLint("CheckResult")
     fun showDetailsFromNotification(id: Int) {
-        selectedMovieLiveData.postValue(movieDbUseCase.getById(id))
+       movieDbUseCase.getById(id)
+           .subscribeOn(Schedulers.computation())
+           .observeOn(AndroidSchedulers.mainThread())
+           .subscribe({
+               selectedMovieLiveData.postValue(it)
+           },{
+
+           })
     }
 }

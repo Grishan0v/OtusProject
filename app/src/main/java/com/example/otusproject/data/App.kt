@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -24,21 +25,20 @@ class App : Application() {
     private lateinit var moviesRepository: MoviesRepository
     private lateinit var service: MovieDbService
     lateinit var useCase:  MovieDbUseCase
-    lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var roomDb: AppDb? = null
-
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         initRoomDb()
         initRetrofit()
-        moviesRepository = MoviesRepository(roomDb!!.getMovieDao())
+        compositeDisposable = CompositeDisposable()
+        moviesRepository = MoviesRepository(roomDb!!.getMovieDao(), compositeDisposable)
         initUseCase()
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         FirebaseCrashlytics.getInstance().setUserId("dev-01")
-
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -103,5 +103,6 @@ class App : Application() {
         const val BASE_URL = "https://api.themoviedb.org/3/"
         const val API_KEY = "6e63c2317fbe963d76c3bdc2b785f6d1"
         lateinit var instance: App
+        lateinit var compositeDisposable: CompositeDisposable
     }
 }

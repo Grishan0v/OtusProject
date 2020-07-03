@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.otusproject.data.App
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.databinding.ActivityMainBinding
 import com.example.otusproject.ui.screen_details.DetailsFragment
@@ -128,4 +129,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        App.compositeDisposable.dispose()
+    }
 }
