@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.otusproject.data.App
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.databinding.ActivityMainBinding
+import com.example.otusproject.service.AlertReceiver
 import com.example.otusproject.ui.screen_details.DetailsFragment
 import com.example.otusproject.ui.screen_fav.FavoriteFragment
 import com.example.otusproject.ui.screen_home.HomeFragment

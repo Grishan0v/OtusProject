@@ -1,4 +1,4 @@
-package com.example.otusproject
+package com.example.otusproject.service
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.example.otusproject.service.NotificationHelper
 
 class AlertReceiver : BroadcastReceiver() {
     var title = "title"
@@ -16,7 +17,8 @@ class AlertReceiver : BroadcastReceiver() {
         title = intent.getStringExtra("TITLE")
         id = intent.getIntExtra("MOVIE_ID", 0)
 
-        val notificationHelper = NotificationHelper(context)
+        val notificationHelper =
+            NotificationHelper(context)
         val nb: NotificationCompat.Builder = notificationHelper.channelNotification(
             title,
             "Don't forget to watch this movie",

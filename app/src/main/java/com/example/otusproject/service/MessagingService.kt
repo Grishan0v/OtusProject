@@ -16,7 +16,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService : FirebaseMessagingService(){
-    private val movieDbUseCase = App.instance.useCase
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onMessageReceived(p0: RemoteMessage) {
