@@ -46,11 +46,18 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         initFragments()
         startFragment(homeFragment)
 
-        val id = intent.getIntExtra("MOVIE_ID", 0)
-        if (id > 0) {
-            viewModel.showDetailsFromNotification(id)
-            startFragment(detailsFragment)
+        intent.extras?.keySet()?.forEach {
+            Log.d("MainActivityIntent", "key: $it, value: ${intent.getStringExtra(it)}")
         }
+
+
+       if (intent.getStringExtra("MOVIE_ID") != null) {
+           val id = intent.getStringExtra("MOVIE_ID").toInt()
+           if (id > 0) {
+               viewModel.showDetailsFromNotification(id)
+               startFragment(detailsFragment)
+           }
+       }
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {

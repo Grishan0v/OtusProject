@@ -20,7 +20,7 @@ class MessagingService : FirebaseMessagingService(){
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onMessageReceived(p0: RemoteMessage) {
         for ((key, value) in p0.data.entries) {
-            Log.d("mTAG", "key = $key, value = $value")
+            Log.d("mTAG-received", "key = $key, value = $value")
         }
         sendNotification(p0)
     }
@@ -43,7 +43,7 @@ class MessagingService : FirebaseMessagingService(){
         }
 
         val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"]?.toInt())
+                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"].toString())
 
         val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
