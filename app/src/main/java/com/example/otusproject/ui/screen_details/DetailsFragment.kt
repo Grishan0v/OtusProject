@@ -2,8 +2,6 @@ package com.example.otusproject.ui.screen_details
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.ImageView
 import android.widget.TimePicker
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,9 +18,6 @@ import com.example.otusproject.R
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
 
 
@@ -77,8 +71,10 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
         }
 
         downloadBtn.setOnClickListener {
-            DownloadAndSaveImageTask(activity!!.baseContext)
-                .execute("https://image.tmdb.org/t/p/w500"+movieItem.posterPath)
+            (activity as? Options)?.moviePosterSave(
+                "https://image.tmdb.org/t/p/w500"+movieItem.posterPath
+            )
+
         }
     }
 
@@ -96,11 +92,12 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         reminderTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
         reminderTime.set(Calendar.MINUTE, minute)
-        (activity as? Reminder)?.movieRemind(reminderTime, movieItem)
+        (activity as? Options)?.movieRemind(reminderTime, movieItem)
     }
 
-    interface Reminder {
+    interface Options {
         fun movieRemind(remindTime: Calendar, movie: MovieItem)
+        fun moviePosterSave(posterPath: String)
     }
 
 }
