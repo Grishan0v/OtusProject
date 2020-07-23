@@ -13,6 +13,7 @@ import com.example.otusproject.R
 import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.SpacingItemDecoration
 import com.example.otusproject.data.vo.MovieItem
+import com.example.otusproject.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -30,7 +31,10 @@ class HomeFragment : Fragment() {
         themeBtnText()
         initRecyclerView()
 
-        viewModel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
+        viewModel = activity?.let {
+            ViewModelProvider(it, ViewModelFactory())
+                    .get(HomeFragmentViewModel::class.java)
+        }
         viewModel!!.initMovieList()
         viewModel!!.initFavList()
         viewModel!!.movies.observe(this.viewLifecycleOwner, Observer { movies -> adapter?.setItems(movies)})

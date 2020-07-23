@@ -15,7 +15,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class MoviesRepository (private val movieDao: MovieDao, private val compositeDisposable: CompositeDisposable){
+class MoviesRepository (private val movieDao: MovieDao){
     private val databaseThreadPool : ExecutorService = Executors.newFixedThreadPool(2)
 
     val movieFavorites: Single<List<MovieItem>>

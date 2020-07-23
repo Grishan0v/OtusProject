@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.otusproject.R
 import com.example.otusproject.SpacingItemDecoration
 import com.example.otusproject.data.vo.MovieItem
+import com.example.otusproject.ui.ViewModelFactory
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_favorite.*
 
@@ -26,7 +27,10 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
+        viewModel = activity?.let {
+            ViewModelProvider(it, ViewModelFactory())
+                .get(HomeFragmentViewModel::class.java)
+        }
         viewModel!!.favorites.observe(this.viewLifecycleOwner, Observer {fav ->
             if (favoriteMovies.isNotEmpty())
                 favoriteMovies.clear()
