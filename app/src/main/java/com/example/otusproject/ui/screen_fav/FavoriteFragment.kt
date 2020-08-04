@@ -48,8 +48,8 @@ class FavoriteFragment : Fragment() {
 
         recycle_view_favorite.adapter =
             MovieFavRecycleAdapter(
-                LayoutInflater.from(activity),
-                favoriteMovies) {
+                favoriteMovies
+            ) {
                 viewModel!!.removeItemFromFavorites(it)
                 favoriteMovies.remove(it)
             }

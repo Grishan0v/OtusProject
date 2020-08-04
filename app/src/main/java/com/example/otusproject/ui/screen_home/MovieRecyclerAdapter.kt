@@ -13,7 +13,6 @@ import com.example.otusproject.data.vo.MovieItem
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieRecyclerAdapter(
-    private val context: LayoutInflater,
     private val items: MutableList<MovieItem>,
     val listener: (MovieItem) -> Unit,
     val longListener: (MovieItem) -> Boolean
@@ -54,6 +53,9 @@ class MovieRecyclerAdapter(
         notifyDataSetChanged()
     }
 
+    fun clearItems() {
+        items.clear()
+    }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemTitle: TextView? = itemView.item_movie_name_id

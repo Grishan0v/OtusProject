@@ -45,11 +45,10 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
        recycler_view_id.addItemDecoration(SpacingItemDecoration(30))
-        adapter = MovieRecyclerAdapter(LayoutInflater.from(activity), items as MutableList<MovieItem>,
-            setOnClickListener@{
-                viewModel!!.onMovieSelect(it)
-                (activity as? Transfers)?.detailsTransfer()
-            },
+        adapter = MovieRecyclerAdapter(items as MutableList<MovieItem>, setOnClickListener@{
+            viewModel!!.onMovieSelect(it)
+            (activity as? Transfers)?.detailsTransfer()
+        },
             setOnLongClickListener@{
                 viewModel!!.addToFavorites(it)
                 showToastMessage("Added to Favorite")
