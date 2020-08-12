@@ -42,6 +42,64 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816796209681:android:7992140d230b4742ed57b0",
+        "android_client_info": {
+          "package_name": "com.example.otusproject.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIS3QFhzH6mEvTqOD-tYlUZ6FTYs2phdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816796209681:android:5c5b5c8c3ae96ecced57b0",
+        "android_client_info": {
+          "package_name": "com.example.otusproject.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIS3QFhzH6mEvTqOD-tYlUZ6FTYs2phdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816796209681-amffdm5frph5pkfjid9due1312udr35o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

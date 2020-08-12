@@ -9,7 +9,6 @@
     tools:ignore="MissingDefaultResource">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -94,8 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="description"
-                app:layout_constraintEnd_toEndOf="@+id/notes"
-                app:layout_constraintStart_toStartOf="@+id/notes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <Button
@@ -122,7 +121,6 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="false"

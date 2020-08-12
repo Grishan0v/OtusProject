@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.otusproject.data.App
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.databinding.ActivityMainBinding
 import com.example.otusproject.service.AlertReceiver
@@ -64,12 +63,20 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
        }
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.home_menu_item -> startFragment(homeFragment)
-                R.id.favorite_menu_item -> startFragment(favoriteFragment)
-                R.id.invite_menu_item -> startFragment(inviteFragment)
+            if (OptionLocker.isLockedOptionFavorite) {
+                when (it.itemId) {
+                    R.id.home_menu_item -> startFragment(homeFragment)
+                    R.id.invite_menu_item -> startFragment(inviteFragment)
+                }
+                true
+            } else {
+                when (it.itemId) {
+                    R.id.home_menu_item -> startFragment(homeFragment)
+                    R.id.favorite_menu_item -> startFragment(favoriteFragment)
+                    R.id.invite_menu_item -> startFragment(inviteFragment)
+                }
+                true
             }
-            true
         }
     }
 
@@ -137,7 +144,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         intent.putExtra("TITLE", movie.title)
         intent.putExtra("MOVIE_ID", movie.id)
         val pendingIntent = PendingIntent.getBroadcast(this, movie.id, intent, 0)
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, remindTime.timeInMillis, pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, remindTime.timeInMillis, pendingIntent)
         Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show()
     }
 
@@ -147,7 +154,4 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         Toast.makeText(this, "Image saved.", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

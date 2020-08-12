@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.otusproject.MainActivity
 import com.example.otusproject.R
-import com.example.otusproject.data.App
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 

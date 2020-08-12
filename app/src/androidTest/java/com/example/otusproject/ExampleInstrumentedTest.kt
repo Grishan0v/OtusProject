@@ -3,25 +3,21 @@ package com.example.otusproject
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
-import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.otusproject.ui.screen_home.MovieRecyclerAdapter
 import org.junit.After
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -59,7 +55,7 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.favorite_menu_item))
             .perform(click())
 
-        onView(withId(R.id.recycle_view_favorite)).check(matches(ViewMatchers.hasChildCount(1)))
+        onView(withId(R.id.recycle_view_favorite)).check(matches(hasChildCount(1)))
 
 
     }

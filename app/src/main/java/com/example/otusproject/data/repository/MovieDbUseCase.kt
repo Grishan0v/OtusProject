@@ -4,8 +4,6 @@ import android.content.Context
 import com.example.otusproject.data.api.MovieDbService
 import com.example.otusproject.data.vo.MovieItem
 import io.reactivex.Single
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MovieDbUseCase(
     private val context: Context,

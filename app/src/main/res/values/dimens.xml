@@ -1,7 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="defaultPadding">4dp</dimen>
-    <dimen name="posterHeight">180dp</dimen>
-    <dimen name="margin_btn_lr">36dp</dimen>
-    <dimen name="detailsHeadTextSize">24sp</dimen>
-</resources>
+<resources></resources>

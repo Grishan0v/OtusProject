@@ -10,7 +10,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
-import io.reactivex.disposables.CompositeDisposable
 
 class App : Application() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics

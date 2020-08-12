@@ -14,6 +14,14 @@ ext {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/grishanov/Android/Keys/key1')
+            storePassword '906239'
+            keyAlias 'key0'
+            keyPassword '906239'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
@@ -23,6 +31,17 @@ android {
 
     viewBinding {
         enabled = true
+    }
+
+    flavorDimensions "version"
+
+    productFlavors{
+        free {
+            applicationId "com.example.otusproject.free"
+        }
+        paid {
+            applicationId "com.example.otusproject.paid"
+        }
     }
 
     compileOptions {
@@ -64,6 +83,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 

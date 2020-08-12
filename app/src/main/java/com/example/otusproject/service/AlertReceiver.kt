@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.example.otusproject.service.NotificationHelper
 
 class AlertReceiver : BroadcastReceiver() {
     var title = "title"
