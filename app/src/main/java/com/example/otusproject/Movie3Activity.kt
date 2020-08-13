@@ -3,24 +3,18 @@ package com.example.otusproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.CheckBox
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.text.set
-import com.example.otusproject.databinding.ActivityMainBinding
-import com.example.otusproject.databinding.MovieDetails1LayoutBinding
+import com.example.otusproject.databinding.MovieDetails3LayoutBinding
 
-class Movie1Activity : AppCompatActivity() {
-    private lateinit var binding: MovieDetails1LayoutBinding
+class Movie3Activity : AppCompatActivity() {
+    private lateinit var binding: MovieDetails3LayoutBinding
     private var noteText = ""
     private lateinit var note: Editable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MovieDetails1LayoutBinding.inflate(layoutInflater)
+        binding = MovieDetails3LayoutBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -30,19 +24,21 @@ class Movie1Activity : AppCompatActivity() {
                     note = s
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 noteText = s.toString()
             }
+
         })
     }
 
     override fun onBackPressed() {
-        val intentM1 = Intent(this@Movie1Activity, MainActivity::class.java)
+        val intentM1 = Intent(this@Movie3Activity, MainActivity::class.java)
         intentM1.putExtra("checkBox", binding.checkBox.isChecked)
-        intentM1.putExtra("movieName", "Blade Runner 2049")
+        intentM1.putExtra("movieName", "Knives Out")
         intentM1.putExtra("notes", noteText)
         startActivityForResult(intentM1, 1)
         finish()

@@ -7,5 +7,32 @@
     <string name="checkBoxName">Favorite</string>
     <string name="movie1Description1">Blade Runner 2049 is a 2017 American neo-noir science fiction film directed by Denis Villeneuve and written by Hampton Fancher and Michael Green. A sequel to the 1982 film Blade Runner, the film stars Ryan Gosling and Harrison Ford, with Ana de Armas, Sylvia Hoeks, Robin Wright, Mackenzie Davis, Carla Juri, Lennie James, Dave Bautista, and Jared Leto in supporting roles. Ford and Edward James Olmos reprise their roles from the original. Set thirty years after the first film, Gosling plays K, a Nexus-9 replicant blade runner" who uncovers a secret that threatens to destabilize society and the course of civilization. Original director Ridley Scott served as an executive producer on the film."</string>
     <string name="movie1Description2">Joker is a 2019 American psychological thriller film directed and produced by Todd Phillips, who co-wrote the screenplay with Scott Silver. The film, based on DC Comics characters, stars Joaquin Phoenix as the Joker and provides a possible origin story for the character. Set in 1981, it follows Arthur Fleck, a failed stand-up comedian whose descent into insanity and nihilism inspires a violent counter-cultural revolution against the wealthy in a decaying Gotham City. Robert De Niro, Zazie Beetz, Frances Conroy, Brett Cullen, Glenn Fleshler, Bill Camp, Shea Whigham, and Marc Maron appear in supporting roles. Joker was produced by Warner Bros. Pictures, DC Films, and Joint Effort, in association with Bron Creative and Village Roadshow Pictures, and distributed by Warner Bros.</string>
+    <string name="movie1Description3">When renowned crime novelist Harlan Thrombey (Christopher Plummer) is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit Blanc (Daniel Craig) is mysteriously enlisted to investigate. From Harlans dysfunctional family to his devoted staff, Blanc sifts through a web of red herrings and self-serving lies to uncover the truth behind Harlans untimely death.</string>
     <string name="inviteMessage">Hi Friend, check out my new App, It\'s great!</string>
+    <string name="add_to_favorite">add to favorite</string>
+    <string name="add_your_notes_here">add your notes here...</string>
+    <string name="release_date">Release date:</string>
+    <string name="dateMovie1" translatable="false">2017</string>
+    <string name="starring">Starring:</string>
+    <string name="actorsMovie1">Harison Ford, Ryan Gosling</string>
+    <string name="directed_by">Directed by:</string>
+    <string name="directorMovie1">Denis Villeneuve</string>
+    <string name="ratioMovie1" translatable="false">4.3 Stars</string>
+    <string name="description">description</string>
+    <string name="star">star</string>
+    <string name="poster">poster</string>
+    <string name="dateMovie2" translatable="false">2019</string>
+    <string name="actorsMovie2">Joaquin Phoenix</string>
+    <string name="directorMovie2">Todd Phillips</string>
+    <string name="ratingMovie2" translatable="false">4.4 STARS</string>
+    <string name="movieName3">Knives Out</string>
+    <string name="dateMovie3" translatable="false">2019</string>
+    <string name="actorsMovie3">Daniel Craig</string>
+    <string name="directorMovie3">Rian Johnson</string>
+    <string name="ratingMovie3" translatable="false">4.7 STARS</string>
+    <string name="day">Day Mode</string>
+    <string name="alert_exit">Are you sure you want to leave?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="night">Night Mode</string>
 </resources>

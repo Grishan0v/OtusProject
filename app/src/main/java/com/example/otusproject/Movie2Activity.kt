@@ -43,6 +43,7 @@ class Movie2Activity : AppCompatActivity() {
         intentM1.putExtra("movieName", "Joker")
         intentM1.putExtra("notes", noteText)
         startActivityForResult(intentM1, 1)
+        finish()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

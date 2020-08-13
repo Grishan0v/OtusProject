@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OtusProject</string>
+    <string name="inviteFriends_btn">Пригласить друзей</string>
+    <string name="movieName1">Бегущий по лезвию 2049</string>
+    <string name="movieName2">Джокер</string>
+    <string name="details_btn">Подробней</string>
+    <string name="checkBoxName">Избранное</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="alert_exit">Точно хотите выйти?</string>
+    <string name="day">Дневной режим</string>
+    <string name="directorMovie3">Райан Гослинг</string>
+    <string name="actorsMovie3">Дэниэл Крэйг</string>
+    <string name="movieName3">Достать ножи</string>
+    <string name="directorMovie2">Тодд Филлипс</string>
+    <string name="actorsMovie2">Хоакин Феникс</string>
+    <string name="poster">постер</string>
+    <string name="star">звезда</string>
+    <string name="description">описание</string>
+    <string name="directorMovie1">Денис Вильнёв</string>
+    <string name="directed_by">Режисер:</string>
+    <string name="actorsMovie1">Харисон Форд, Райан Гослинг</string>
+    <string name="starring">В главных ролях:</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="add_your_notes_here">добавьте заметку здесь</string>
+    <string name="add_to_favorite">избранное</string>
+    <string name="inviteMessage">Привет друг, зацени моё приложение, оно просто супер</string>
+    <string name="movie1Description1">В недалеком будущем мир населен людьми и репликантами, созданными выполнять самую тяжелую работу. Работа офицера полиции Кей — держать репликантов под контролем в условиях нарастающего напряжения… Пока он случайно не становится обладателем секретной информации, которая ставит под угрозу существование всего человечества. Желая найти ключ к разгадке, Кей решает разыскать Рика Декарда, бывшего офицера специального подразделения полиции Лос-Анджелеса, который бесследно исчез много лет назад.</string>
+    <string name="movie1Description2">Готэм, начало 1980-х годов. Комик Артур Флек живет с больной матерью, которая с детства учит его «ходить с улыбкой». Пытаясь нести в мир хорошее и дарить людям радость, Артур сталкивается с человеческой жестокостью и постепенно приходит к выводу, что этот мир получит от него не добрую улыбку, а ухмылку злодея Джокера.</string>
+    <string name="movie1Description3">На следующее утро после празднования 85-летия известного автора криминальных романов Харлана Тромби виновника торжества находят мёртвым. Налицо — явное самоубийство, но полиция по протоколу опрашивает всех присутствующих в особняке членов семьи, хотя, в этом деле больше заинтересован частный детектив Бенуа Блан. Тем же утром он получил конверт с наличными от неизвестного и заказ на расследование смерти Харлана. Не нужно быть опытным следователем, чтобы понять, что все приукрашивают свои отношения с почившим главой семейства, но Блану достаётся настоящий подарок — медсестра покойного, которая физически не выносит ложь.</string>
+    <string name="night">Ночной режим</string>
+</resources>
