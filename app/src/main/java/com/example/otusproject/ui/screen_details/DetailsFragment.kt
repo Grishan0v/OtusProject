@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.otusproject.DownloadAndSaveImageTask
 import com.example.otusproject.R
 import com.example.otusproject.data.vo.MovieItem
+import com.example.otusproject.ui.ViewModelFactory
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
@@ -34,7 +35,10 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
+        viewModel = activity?.let {
+            ViewModelProvider(it, ViewModelFactory())
+                .get(HomeFragmentViewModel::class.java)
+        }
         viewModel!!.selectedMovie.observe(this.viewLifecycleOwner, Observer {
                 selectedMovie ->
         Log.d("mTAG", selectedMovie.id.toString())

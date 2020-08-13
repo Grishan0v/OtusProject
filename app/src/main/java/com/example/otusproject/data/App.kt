@@ -3,40 +3,24 @@ package com.example.otusproject.data
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
-import com.example.otusproject.R
-import com.example.otusproject.data.api.MovieDbService
-import com.example.otusproject.data.database.AppDb
-import com.example.otusproject.data.database.Db
-import com.example.otusproject.data.repository.MovieDbUseCase
-import com.example.otusproject.data.repository.MoviesRepository
+import com.example.otusproject.di.AppComponent
+import com.example.otusproject.di.AppModule
+import com.example.otusproject.di.DaggerAppComponent
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.iid.FirebaseInstanceId
 import io.reactivex.disposables.CompositeDisposable
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class App : Application() {
-    private lateinit var moviesRepository: MoviesRepository
-    private lateinit var service: MovieDbService
-    lateinit var useCase:  MovieDbUseCase
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    private var roomDb: AppDb? = null
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        initRoomDb()
-        initRetrofit()
-        compositeDisposable = CompositeDisposable()
-        moviesRepository = MoviesRepository(roomDb!!.getMovieDao(), compositeDisposable)
-        initUseCase()
+        initDagger()
+
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         FirebaseCrashlytics.getInstance().setUserId("dev-01")
         FirebaseInstanceId.getInstance().instanceId
@@ -55,49 +39,13 @@ class App : Application() {
             })
     }
 
-    private fun initUseCase() {
-        useCase = MovieDbUseCase(applicationContext, service, moviesRepository)
-    }
-
-    private fun initRoomDb() {
-        Executors.newSingleThreadScheduledExecutor().execute {
-            roomDb = Db.getInstance(this)
-            Log.d("MyTag", roomDb.toString())
-        }
-    }
-
-    private  fun initRetrofit(){
-        val requestInterceptor = Interceptor { chain ->
-
-            //создаем запрос на добавление в url параметра api key
-            val url = chain.request()
-                .url
-                .newBuilder()
-                .addQueryParameter("api_key",
-                    API_KEY
-                )
-                .build()
-
-            val request = chain.request()
-                .newBuilder()
-                .url(url)
-                .build()
-
-            return@Interceptor chain.proceed(request)
-        }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(requestInterceptor)
-            .connectTimeout(60, TimeUnit.SECONDS)
+    private fun initDagger() {
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
             .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        service = retrofit.create(MovieDbService::class.java)
+        appComponent.inject(this)
     }
+
 
     companion object{
         const val BASE_URL = "https://api.themoviedb.org/3/"

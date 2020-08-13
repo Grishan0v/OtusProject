@@ -13,13 +13,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class HomeFragmentViewModel: ViewModel() {
+class HomeFragmentViewModel(private val movieDbUseCase: MovieDbUseCase): ViewModel() {
     private val moviesLiveData = MutableLiveData<List<MovieItem>>()
     private val errorLiveData = MutableLiveData<String>()
     private val selectedMovieLiveData = MutableLiveData<MovieItem>()
     private val favoriteLiveData = MutableLiveData<MutableList<MovieItem>>()
-
-    private val movieDbUseCase = App.instance.useCase
 
     val movies: LiveData<List<MovieItem>>
         get() = moviesLiveData
