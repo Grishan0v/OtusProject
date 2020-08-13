@@ -3,26 +3,44 @@ package com.example.otusproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.CheckBox
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.text.set
-import com.example.otusproject.databinding.ActivityMainBinding
-import com.example.otusproject.databinding.MovieDetails1LayoutBinding
+import com.bumptech.glide.Glide
+import com.example.otusproject.databinding.ActivityDetailsBinding
 
-class Movie1Activity : AppCompatActivity() {
-    private lateinit var binding: MovieDetails1LayoutBinding
+class DetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailsBinding
     private var noteText = ""
     private lateinit var note: Editable
+    private lateinit var favoriteItems: ArrayList<MovieItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MovieDetails1LayoutBinding.inflate(layoutInflater)
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        favoriteItems = intent.getParcelableArrayListExtra("favoriteItems")
+
+        val movieItem = intent.getParcelableExtra<MovieItem>("PARCEL")
+        val img = binding.moviePoster
+        val title = binding.title
+        val movieDate = binding.movieReleaseDate
+        val starringActors = binding.starringActors
+        val director = binding.director
+        val rating = binding.rating
+        val description = binding.description
+
+
+        Glide.with(view.context)
+            .load(movieItem?.moviePoster)
+            .into(img)
+
+        title.text = movieItem?.title
+        movieDate.text = movieItem?.year
+        starringActors.text = movieItem?.starring
+        director.text = movieItem?.director
+        rating.text = movieItem?.rating
+        description.text = movieItem?.description
 
         binding.notes.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -40,11 +58,10 @@ class Movie1Activity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intentM1 = Intent(this@Movie1Activity, MainActivity::class.java)
-        intentM1.putExtra("checkBox", binding.checkBox.isChecked)
-        intentM1.putExtra("movieName", "Blade Runner 2049")
-        intentM1.putExtra("notes", noteText)
-        startActivityForResult(intentM1, 1)
+        val intent = Intent(this@DetailsActivity, MainActivity::class.java)
+        intent.putExtra("notes", noteText)
+        intent.putExtra("favoriteItems", favoriteItems)
+        startActivityForResult(intent, 1)
         finish()
     }
 
