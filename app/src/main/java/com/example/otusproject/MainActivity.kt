@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.example.otusproject.data.App
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.databinding.ActivityMainBinding
 import com.example.otusproject.service.AlertReceiver
+import com.example.otusproject.ui.SimpleIdlingResource
 import com.example.otusproject.ui.screen_details.DetailsFragment
 import com.example.otusproject.ui.screen_fav.FavoriteFragment
 import com.example.otusproject.ui.screen_home.HomeFragment
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
     private lateinit var detailsFragment: DetailsFragment
     private lateinit var inviteFragment: InviteFragment
     private lateinit var binding: ActivityMainBinding
+    @VisibleForTesting
+    val idlingResource = SimpleIdlingResource()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +149,5 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
 
     override fun onDestroy() {
         super.onDestroy()
-        App.compositeDisposable.dispose()
     }
 }

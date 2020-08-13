@@ -14,7 +14,6 @@ import com.example.otusproject.data.vo.MovieItem
 import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
 
 class MovieFavRecycleAdapter(
-    private val context: LayoutInflater,
     private var items: List<MovieItem>,
     val listener: (MovieItem) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

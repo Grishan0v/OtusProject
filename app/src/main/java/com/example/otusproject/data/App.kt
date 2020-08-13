@@ -51,6 +51,5 @@ class App : Application() {
         const val BASE_URL = "https://api.themoviedb.org/3/"
         const val API_KEY = "6e63c2317fbe963d76c3bdc2b785f6d1"
         lateinit var instance: App
-        lateinit var compositeDisposable: CompositeDisposable
     }
 }
