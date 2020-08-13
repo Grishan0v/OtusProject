@@ -12,8 +12,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.otusproject.data.App
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.databinding.ActivityMainBinding
+import com.example.otusproject.service.AlertReceiver
 import com.example.otusproject.ui.screen_details.DetailsFragment
 import com.example.otusproject.ui.screen_fav.FavoriteFragment
 import com.example.otusproject.ui.screen_home.HomeFragment
@@ -44,11 +46,18 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         initFragments()
         startFragment(homeFragment)
 
-        val id = intent.getIntExtra("MOVIE_ID", 0)
-        if (id > 0) {
-            viewModel.showDetailsFromNotification(id)
-            startFragment(detailsFragment)
+        intent.extras?.keySet()?.forEach {
+            Log.d("MainActivityIntent", "key: $it, value: ${intent.getStringExtra(it)}")
         }
+
+
+       if (intent.getStringExtra("MOVIE_ID") != null) {
+           val id = intent.getStringExtra("MOVIE_ID").toInt()
+           if (id > 0) {
+               viewModel.showDetailsFromNotification(id)
+               startFragment(detailsFragment)
+           }
+       }
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -128,4 +137,8 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        App.compositeDisposable.dispose()
+    }
 }

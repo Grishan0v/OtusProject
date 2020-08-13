@@ -1,4 +1,4 @@
-package com.example.otusproject
+package com.example.otusproject.service
 
 import android.annotation.TargetApi
 import android.app.NotificationChannel
@@ -10,6 +10,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.example.otusproject.MainActivity
+import com.example.otusproject.R
 
 
 class NotificationHelper(base: Context?) : ContextWrapper(base) {
@@ -39,7 +41,9 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("MOVIE_ID", id)
         val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        return NotificationCompat.Builder(applicationContext, channelID)
+        return NotificationCompat.Builder(applicationContext,
+            channelID
+        )
             .setContentTitle(title)
             .setContentText(body)
             .setContentIntent(pendingIntent)

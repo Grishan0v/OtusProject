@@ -1,13 +1,13 @@
 package com.example.otusproject.data.repository
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.example.otusproject.data.api.MovieDbService
 import com.example.otusproject.data.database.MovieDao
 import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.data.vo.JsonResponse
 import com.example.otusproject.data.vo.MovieItem
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,35 +15,25 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class MoviesRepository (private val movieDao: MovieDao){
-    private val _moviesFavorites = mutableListOf<MovieItem>()
+class MoviesRepository (private val movieDao: MovieDao, private val compositeDisposable: CompositeDisposable){
     private val databaseThreadPool : ExecutorService = Executors.newFixedThreadPool(2)
 
-
-    val movieFavorites: List<MovieItem>
-    @SuppressLint("CheckResult")
+    val movieFavorites: Single<List<MovieItem>>
     get() {
-        movieDao.getAllFavorites()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                    _moviesFavorites.clear()
-                    _moviesFavorites.addAll(it)
-            }
-        return _moviesFavorites
+        return movieDao.getAllFavorites()
     }
 
     fun getMovies(movieDbService: MovieDbService, context: Context, callback: OnListReturn) {
         val pref = context.getSharedPreferences("time", Context.MODE_PRIVATE)
         val now = Calendar.getInstance().timeInMillis
+        val temp = mutableListOf<MovieItem>()
 
         if (pref.contains("time")
             && ((now - pref.getLong("time", now))/60000 < 20) ){
-            databaseThreadPool.execute {
-                callback.returnSuccess(movieDao.getAll())
-            }
-        } else {
+            callback.onResponse(movieDao.getAll())
+            return
+        }
             movieDbService.getMoviesFromDB().enqueue(object : Callback<JsonResponse> {
-                val temp = mutableListOf<MovieItem>()
                 override fun onResponse(
                     call: Call<JsonResponse>,
                     response: Response<JsonResponse>
@@ -53,17 +43,22 @@ class MoviesRepository (private val movieDao: MovieDao){
                             this.jsonMovies.forEach {
                                 val movieItem = convertToMovieItem(it)
                                 temp.add(movieItem)
-                                callback.returnSuccess(temp)
                             }
+                            pref.edit().putLong("time", now).apply()
                             insertListRoom(temp)
+                            if (temp.isEmpty()) {
+                                callback.onResponseFailed("Error occurred :(")
+                            } else {
+                                callback.onResponse(Single.create {
+                                    it.onSuccess(temp)
+                                })
+                            }
                         }
                     }
                 }
                 override fun onFailure(call: Call<JsonResponse>, t: Throwable) {
                 }
             })
-            pref.edit().putLong("time", now).apply()
-        }
     }
 
     fun refreshItem(movie: MovieItem) {
@@ -72,12 +67,8 @@ class MoviesRepository (private val movieDao: MovieDao){
         }
     }
 
-    fun geById(id: Int) : MovieItem {
-        var temp : MovieItem? = null
-        databaseThreadPool.execute {
-            temp = movieDao.getById(id)
-        }
-        return temp!!
+    fun geById(id: Int): Single<MovieItem>{
+        return movieDao.getById(id)
     }
 
     private fun insertListRoom(movies: List<MovieItem>) {
@@ -106,6 +97,8 @@ class MoviesRepository (private val movieDao: MovieDao){
     }
 
     interface OnListReturn {
-        fun returnSuccess (movies: List<MovieItem>)
+        fun onResponse (movies: Single<List<MovieItem>>)
+        fun onResponseFailed (error: String)
+
     }
 }

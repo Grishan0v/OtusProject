@@ -16,12 +16,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MessagingService : FirebaseMessagingService(){
-    private val movieDbUseCase = App.instance.useCase
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onMessageReceived(p0: RemoteMessage) {
         for ((key, value) in p0.data.entries) {
-            Log.d("mTAG", "key = $key, value = $value")
+            Log.d("mTAG-received", "key = $key, value = $value")
         }
         sendNotification(p0)
     }
@@ -44,9 +43,9 @@ class MessagingService : FirebaseMessagingService(){
         }
 
         val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"])
+                intent.putExtra("MOVIE_ID", p0.data["MOVIE_ID"].toString())
 
-        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationBuilder = NotificationCompat.Builder(this, notificationChannelId)
             .setSmallIcon(R.drawable.ic_local_movies)
             .setContentTitle(p0.notification?.title)
@@ -61,7 +60,5 @@ class MessagingService : FirebaseMessagingService(){
 
     override fun onNewToken(p0: String) {
         Log.i("mTag", "Refreshed token: $p0")
-//        Log.i("mTag", item.title)
-
     }
 }
