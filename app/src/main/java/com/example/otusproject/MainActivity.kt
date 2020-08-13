@@ -1,161 +1,106 @@
 package com.example.otusproject
 
 import android.content.DialogInterface
-import android.content.Intent
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.otusproject.databinding.ActivityMainBinding
+private const val FAV_ARRAY = "FAV_ARRAY"
+private const val HOME = "HOME"
+private const val DETAILS = "DETAILS"
+private const val FAVORITE = "FAVORITE"
+private const val INVITE = "INVITE"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeFragment.OnRefresh {
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var favoriteFragment: FavoriteFragment
+    private lateinit var detailsFragment: DetailsFragment
+    private lateinit var inviteFragment: InviteFragment
     private lateinit var binding: ActivityMainBinding
-    private var favoriteItems: ArrayList<MovieItem> = ArrayList<MovieItem>()
+    private var favoriteItems: ArrayList<MovieItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        initRecyclerView()
+        initFragments()
+        startFragment(homeFragment)
 
-        if(intent.getParcelableArrayListExtra<MovieItem>("favoriteItems")!=null) {
-            favoriteItems = intent.getParcelableArrayListExtra<MovieItem>("favoriteItems")
-        }
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            binding.dayNightBtn.text = getString(R.string.day)
-        } else {
-            binding.dayNightBtn.text = getString(R.string.night)}
-
-        binding.inviteBtn.setOnClickListener {
-            val intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.inviteMessage))
-                type = "text/plain"
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.home_menu_item -> startFragment(homeFragment)
+                R.id.favorite_menu_item -> startFragment(favoriteFragment.newInstance(favoriteItems))
+                R.id.invite_menu_item -> startFragment(inviteFragment)
             }
-            val shareIntent = Intent.createChooser(intent, null)
-            startActivity(shareIntent)
-        }
-
-        binding.favoriteBtn.setOnClickListener {
-            val intent = Intent(this, FavoriteActivity::class.java)
-            intent.putExtra("favoriteItems", favoriteItems)
-            startActivity(intent)
-            finish()
-        }
-
-        binding.dayNightBtn.setOnClickListener{
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                binding.dayNightBtn.text = getString(R.string.night)
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            } else {
-                binding.dayNightBtn.text = getString(R.string.day)
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)}
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            true
         }
     }
 
-    private fun initRecyclerView() {
-        binding.reciclerViewId.layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.HORIZONTAL,false)
-        binding.reciclerViewId.addItemDecoration(SpacingItemDecoration(30))
-        val items = createMovieSet()
-
-        binding.reciclerViewId.adapter = MovieRecyclerAdapter(this, items, setOnClickListener@{
-                movieItem ->
-            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-            intent.putExtra("PARCEL", movieItem)
-            intent.putExtra("favoriteItems", favoriteItems)
-            startActivity(intent)
-            finish()
-        }, setOnLongClickListener@{ movieItem ->
-            if (!favoriteItems.contains(movieItem)) {
-                favoriteItems.add(movieItem)
-                val toast = Toast.makeText(
-                    applicationContext,
-                    getString(R.string.toastAddedToFav),
-                    Toast.LENGTH_SHORT
-                )
-                toast.show()
-            } else {
-                val toast = Toast.makeText(
-                    applicationContext,
-                    "Already in Favorite",
-                    Toast.LENGTH_SHORT)
-                toast.show()
-            }
-
-            return@setOnLongClickListener true
-        })
+    private fun initFragments() {
+        homeFragment = HomeFragment().newInstance(favoriteItems)
+        favoriteFragment = FavoriteFragment().newInstance(favoriteItems)
+        detailsFragment = DetailsFragment()
+        inviteFragment = InviteFragment()
     }
 
-    override fun onResume() {
-        super.onResume()
-        val intent = intent
-        if(intent.getParcelableArrayListExtra<MovieItem>("favoriteItems")!= null) {
-            favoriteItems = intent.getParcelableArrayListExtra<MovieItem>("favoriteItems")
+    private fun startFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.frame_home_screen, fragment)
+            commit()
         }
     }
 
     override fun onBackPressed() {
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage(getString(R.string.alert_exit))
-            .setCancelable(false)
-            .setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
-                finish()
-            }
-            .setNegativeButton(getString(R.string.no)) { d: DialogInterface, _: Int ->
-                d.cancel()
-            }
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.setMessage(getString(R.string.alert_exit))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
+                    finish()
+                }
+                .setNegativeButton(getString(R.string.no)) { d: DialogInterface, _: Int ->
+                    d.cancel()
+                }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
     }
 
-    private fun createMovieSet():  ArrayList<MovieItem> {
-        var movieList = ArrayList<MovieItem>()
-
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName1),
-                getString(R.string.movie1Description1),
-                "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie1),
-                getString(R.string.dateMovie1),
-                getString(R.string.directorMovie1),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName2),
-                getString(R.string.movie1Description2),
-                "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie2),
-                getString(R.string.dateMovie2),
-                getString(R.string.directorMovie2),
-                getString(R.string.actorsMovie2)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName3),
-                getString(R.string.movie1Description3),
-                "https://m.media-amazon.com/images/M/MV5BMGUwZjliMTAtNzAxZi00MWNiLWE2NzgtZGUxMGQxZjhhNDRiXkEyXkFqcGdeQXVyNjU1NzU3MzE@._V1_SY1000_SX675_AL_.jpg",
-                getString(R.string.ratingMovie3),
-                getString(R.string.dateMovie3),
-                getString(R.string.directorMovie3),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        return movieList
+    override fun favoritesRefresh(favorites: ArrayList<MovieItem>) {
+        favoriteItems = favorites
     }
 
+    override fun startDetailFragment(item: MovieItem) {
+        startFragment(DetailsFragment().newInstance(favoriteItems, item))
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(FAV_ARRAY, favoriteItems)
+        when (this.supportFragmentManager.findFragmentById(R.id.frame_home_screen)) {
+            is HomeFragment -> outState.putString("IS_ACTIVE", HOME)
+            is DetailsFragment -> outState.putString("IS_ACTIVE", DETAILS)
+            is FavoriteFragment -> outState.putString("IS_ACTIVE", FAVORITE)
+            is InviteFragment -> outState.putString("IS_ACTIVE", INVITE)
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        favoriteItems = savedInstanceState
+            .getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
+
+        when (savedInstanceState.getString("IS_ACTIVE")) {
+            HOME -> startFragment(homeFragment)
+            DETAILS -> startFragment(detailsFragment)
+            FAVORITE -> startFragment(favoriteFragment.newInstance(favoriteItems))
+            INVITE -> startFragment(inviteFragment)
+
+        }
+    }
 }
