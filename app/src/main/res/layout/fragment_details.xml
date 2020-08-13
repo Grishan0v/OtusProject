@@ -94,8 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="description"
-                app:layout_constraintEnd_toEndOf="@+id/notes"
-                app:layout_constraintStart_toStartOf="@+id/notes"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <Button

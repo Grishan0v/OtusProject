@@ -46,7 +46,7 @@ class MovieFavRecycleAdapter(
 
     class MovieFavViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val itemTitle: TextView = itemView.movieName
-        private val itemPoster: ImageView = itemView.moviePoster1
+        private val itemPoster: ImageView = itemView.moviePoster
         private val itemRating: TextView = itemView.movieRating
         private val itemButton: Button = itemView.deleteBtn
 
