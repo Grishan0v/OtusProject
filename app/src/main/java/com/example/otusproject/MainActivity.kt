@@ -28,7 +28,7 @@ private const val DETAILS = "DETAILS"
 private const val FAVORITE = "FAVORITE"
 private const val INVITE = "INVITE"
 
-class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragment.Reminder {
+class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragment.Options {
     private val viewModel : HomeFragmentViewModel by lazy {
         ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
     }
@@ -135,6 +135,12 @@ class MainActivity : AppCompatActivity(), HomeFragment.Transfers, DetailsFragmen
         val pendingIntent = PendingIntent.getBroadcast(this, movie.id, intent, 0)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, remindTime.timeInMillis, pendingIntent);
         Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun moviePosterSave(posterPath: String) {
+        DownloadAndSaveImageTask(this)
+            .execute(posterPath)
+        Toast.makeText(this, "Image saved.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

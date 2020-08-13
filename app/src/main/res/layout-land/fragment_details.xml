@@ -151,5 +151,14 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <Button
+            android:id="@+id/downloadBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="load poster"
+            app:layout_constraintEnd_toEndOf="@+id/watchLaterBtn"
+            app:layout_constraintStart_toStartOf="@+id/watchLaterBtn"
+            app:layout_constraintTop_toBottomOf="@+id/watchLaterBtn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

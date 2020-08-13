@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.otusproject.DownloadAndSaveImageTask
 import com.example.otusproject.R
 import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
@@ -68,6 +69,13 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
                 currentTime.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+        downloadBtn.setOnClickListener {
+            (activity as? Options)?.moviePosterSave(
+                "https://image.tmdb.org/t/p/w500"+movieItem.posterPath
+            )
+
+        }
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -84,11 +92,12 @@ class DetailsFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         reminderTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
         reminderTime.set(Calendar.MINUTE, minute)
-        (activity as? Reminder)?.movieRemind(reminderTime, movieItem)
+        (activity as? Options)?.movieRemind(reminderTime, movieItem)
     }
 
-    interface Reminder {
+    interface Options {
         fun movieRemind(remindTime: Calendar, movie: MovieItem)
+        fun moviePosterSave(posterPath: String)
     }
 
 }
