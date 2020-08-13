@@ -9,16 +9,15 @@ import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.otusproject.R
-import com.example.otusproject.data.vo.Movie
 import com.example.otusproject.SpacingItemDecoration
-import com.example.otusproject.databinding.FragmentFavoriteBinding
+import com.example.otusproject.data.vo.MovieItem
 import com.example.otusproject.ui.screen_home.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_favorite.*
 
 
 class FavoriteFragment : Fragment() {
     private var viewModel: HomeFragmentViewModel? = null
-    private var favoriteMovies = mutableListOf<Movie>()
+    private var favoriteMovies = mutableListOf<MovieItem>()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,9 +28,10 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(HomeFragmentViewModel::class.java)
         viewModel!!.favorites.observe(this.viewLifecycleOwner, Observer {fav ->
-            favoriteMovies.clear()
-            favoriteMovies.addAll(fav)})
-        viewModel!!.initFavList()
+            if (favoriteMovies.isNotEmpty())
+                favoriteMovies.clear()
+            favoriteMovies.addAll(fav)
+        })
         initRecyclerView()
     }
 
@@ -40,7 +40,6 @@ class FavoriteFragment : Fragment() {
             LayoutInflater.from(activity).context,
             R.anim.layout_animation_fall_down
         )
-
         recycle_view_favorite.addItemDecoration(SpacingItemDecoration(16))
 
         recycle_view_favorite.adapter =
@@ -48,7 +47,7 @@ class FavoriteFragment : Fragment() {
                 LayoutInflater.from(activity),
                 favoriteMovies) {
                 viewModel!!.removeItemFromFavorites(it)
-                viewModel!!.initFavList()
+                favoriteMovies.remove(it)
             }
     }
 }

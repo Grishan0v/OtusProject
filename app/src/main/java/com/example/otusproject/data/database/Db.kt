@@ -1,4 +1,4 @@
-package com.example.otusproject.data.database.movies_db
+package com.example.otusproject.data.database
 
 import android.content.Context
 import androidx.room.Room
@@ -14,7 +14,7 @@ object Db {
                  INSTANCE = Room.databaseBuilder(
                      context,
                      AppDb::class.java,
-                     "db-movie.db"
+                     "db-movie1.db"
                     )
                      .build()
              }

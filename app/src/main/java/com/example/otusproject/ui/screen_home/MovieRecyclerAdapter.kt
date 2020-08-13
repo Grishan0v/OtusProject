@@ -7,17 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.otusproject.R
-import com.example.otusproject.data.vo.Movie
+import com.example.otusproject.data.vo.MovieItem
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieRecyclerAdapter(
     private val context: LayoutInflater,
-    private val items: ArrayList<Movie>,
-    val listener: (Movie) -> Unit,
-    val longListener: (Movie) -> Boolean
+    private val items: MutableList<MovieItem>,
+    val listener: (MovieItem) -> Unit,
+    val longListener: (MovieItem) -> Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -49,10 +48,9 @@ class MovieRecyclerAdapter(
         return items.size
     }
 
-    fun setItems(movies: List<Movie>) {
+    fun setItems(movies: List<MovieItem>) {
         items.clear()
         items.addAll(movies)
-
         notifyDataSetChanged()
     }
 
@@ -62,9 +60,9 @@ class MovieRecyclerAdapter(
         private val itemPoster: ImageView = itemView.item_poster_id
 
         fun bind(
-            movieItem: Movie,
-            listener: (Movie) -> Unit,
-            longListener: (Movie) -> Boolean
+            movieItem: MovieItem,
+            listener: (MovieItem) -> Unit,
+            longListener: (MovieItem) -> Boolean
         ) {
             itemTitle?.text = movieItem.title
 
