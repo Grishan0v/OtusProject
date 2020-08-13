@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.otusproject.R
-import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.data.vo.MovieItem
 import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
 

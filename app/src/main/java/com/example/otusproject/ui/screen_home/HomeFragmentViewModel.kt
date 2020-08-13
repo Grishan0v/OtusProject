@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.otusproject.data.api.App
+import com.example.otusproject.data.App
 import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.vo.MovieItem
 

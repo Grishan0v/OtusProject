@@ -2,7 +2,6 @@ package com.example.otusproject.data.repository
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import com.example.otusproject.data.api.MovieDbService
 import com.example.otusproject.data.database.MovieDao
 import com.example.otusproject.data.vo.JsonMovie
@@ -17,7 +16,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MoviesRepository (private val movieDao: MovieDao){
-    private val _movies = mutableListOf<MovieItem>()
     private val _moviesFavorites = mutableListOf<MovieItem>()
     private val databaseThreadPool : ExecutorService = Executors.newFixedThreadPool(2)
 
@@ -34,50 +32,38 @@ class MoviesRepository (private val movieDao: MovieDao){
         return _moviesFavorites
     }
 
-    fun getMovies(movieDbService: MovieDbService, context: Context): List<MovieItem> {
+    fun getMovies(movieDbService: MovieDbService, context: Context, callback: OnListReturn) {
         val pref = context.getSharedPreferences("time", Context.MODE_PRIVATE)
         val now = Calendar.getInstance().timeInMillis
 
         if (pref.contains("time")
             && ((now - pref.getLong("time", now))/60000 < 20) ){
-           loadFromRoom()
+            databaseThreadPool.execute {
+                callback.returnSuccess(movieDao.getAll())
+            }
         } else {
-            loadFromApi(movieDbService)
-            pref.edit().putLong("time", now).apply()
-        }
-            Thread.sleep(100) // костыль
-            return _movies
-    }
-
-    private fun loadFromRoom() {
-       databaseThreadPool.execute {
-           _movies.addAll(movieDao.getAll())
-           Log.d("mTag", movieDao.getAll().size.toString() + "loaded from room")
-       }
-
-    }
-
-    private fun loadFromApi(movieDbService: MovieDbService) {
-        val temp = mutableListOf<MovieItem>()
-        movieDbService.getMoviesFromDB().enqueue(object : Callback<JsonResponse> {
-            override fun onResponse(
-                call: Call<JsonResponse>,
-                response: Response<JsonResponse>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.apply {
-                        this.jsonMovies.forEach {
-                            val movieItem = convertToMovieItem(it)
-                            temp.add(movieItem)
+            movieDbService.getMoviesFromDB().enqueue(object : Callback<JsonResponse> {
+                val temp = mutableListOf<MovieItem>()
+                override fun onResponse(
+                    call: Call<JsonResponse>,
+                    response: Response<JsonResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.apply {
+                            this.jsonMovies.forEach {
+                                val movieItem = convertToMovieItem(it)
+                                temp.add(movieItem)
+                                callback.returnSuccess(temp)
+                            }
+                            insertListRoom(temp)
                         }
-                        _movies.addAll(temp)
-                        insertListRoom(temp)
                     }
                 }
-            }
-            override fun onFailure(call: Call<JsonResponse>, t: Throwable) {
-            }
-        })
+                override fun onFailure(call: Call<JsonResponse>, t: Throwable) {
+                }
+            })
+            pref.edit().putLong("time", now).apply()
+        }
     }
 
     fun refreshItem(movie: MovieItem) {
@@ -91,21 +77,14 @@ class MoviesRepository (private val movieDao: MovieDao){
         databaseThreadPool.execute {
             temp = movieDao.getById(id)
         }
-        Thread.sleep(100)
         return temp!!
     }
 
     private fun insertListRoom(movies: List<MovieItem>) {
-        Log.d("mTag", movies.size
-            .toString()+ " inserted in room")
        databaseThreadPool.execute {
            movieDao.insertAll(movies)
        }
 
-    }
-
-    private fun insertItemRoom(movie: MovieItem) {
-            movieDao.insert(movie)
     }
 
     private fun convertToMovieItem (jsonMovie: JsonMovie) : MovieItem {
@@ -124,5 +103,9 @@ class MoviesRepository (private val movieDao: MovieDao){
             jsonMovie.voteAverage,
             jsonMovie.voteCount
         )
+    }
+
+    interface OnListReturn {
+        fun returnSuccess (movies: List<MovieItem>)
     }
 }
