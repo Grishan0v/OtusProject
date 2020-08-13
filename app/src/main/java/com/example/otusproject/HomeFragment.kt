@@ -1,6 +1,7 @@
 package com.example.otusproject
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,18 +9,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.otusproject.adapter.MovieRecyclerAdapter
+import com.example.otusproject.data.App
 import com.example.otusproject.databinding.FragmentHomeBinding
+import kotlinx.android.synthetic.main.fragment_home.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val FAV_ARRAY = "FAV_ARRAY"
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var favoriteItems: ArrayList<MovieItem>
+    private lateinit var favoriteItems: ArrayList<Result>
+    private val items = mutableListOf<Result>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
-        favoriteItems = arguments?.getParcelableArrayList<MovieItem>(FAV_ARRAY) as ArrayList<MovieItem>
+        favoriteItems = arguments?.getParcelableArrayList<Result>(FAV_ARRAY) as ArrayList<Result>
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             binding.dayNightBtn.text = getString(R.string.day)
@@ -31,6 +38,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+
+        App.instance.api.getMoviesFromDB()
+            .enqueue(object: Callback<MoviePage> {
+                override fun onFailure(call: Call<MoviePage>, t: Throwable) {
+                    Log.d("tag", "We have an error");
+                }
+                override fun onResponse(
+                    call: Call<MoviePage>,
+                    response: Response<MoviePage>
+                ) {
+                    if(response.isSuccessful){
+                        response.body()?.apply {
+                            this.results.forEach {
+                                items.add(it)
+                            }
+                        }
+                    }
+                    recycler_view_id.adapter?.notifyDataSetChanged()
+                }
+            })
 
         binding.dayNightBtn.setOnClickListener {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -45,13 +72,11 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
         binding.recyclerViewId.addItemDecoration(SpacingItemDecoration(30))
-        val items = createMovieSet()
-
         binding.recyclerViewId.adapter =
             MovieRecyclerAdapter(
                 LayoutInflater.from(
                     activity
-                ), items, setOnClickListener@{
+                ), items as ArrayList<Result>, setOnClickListener@{
                     startDetailsFragment(it)
                 }, setOnLongClickListener@{
                     if (favoriteItems.contains(it))
@@ -63,49 +88,11 @@ class HomeFragment : Fragment() {
                     }
                     return@setOnLongClickListener true
                 })
+
     }
 
-    private fun startDetailsFragment(item: MovieItem) {
+    private fun startDetailsFragment(item: Result) {
         (activity as? OnRefresh)?.startDetailFragment(item)
-    }
-
-    private fun createMovieSet():  ArrayList<MovieItem> {
-        val movieList = ArrayList<MovieItem>()
-
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName1),
-                getString(R.string.movie1Description1),
-                "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie1),
-                getString(R.string.dateMovie1),
-                getString(R.string.directorMovie1),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName2),
-                getString(R.string.movie1Description2),
-                "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
-                getString(R.string.ratingMovie2),
-                getString(R.string.dateMovie2),
-                getString(R.string.directorMovie2),
-                getString(R.string.actorsMovie2)
-            )
-        )
-        movieList.add(
-            MovieItem(
-                getString(R.string.movieName3),
-                getString(R.string.movie1Description3),
-                "https://m.media-amazon.com/images/M/MV5BMGUwZjliMTAtNzAxZi00MWNiLWE2NzgtZGUxMGQxZjhhNDRiXkEyXkFqcGdeQXVyNjU1NzU3MzE@._V1_SY1000_SX675_AL_.jpg",
-                getString(R.string.ratingMovie3),
-                getString(R.string.dateMovie3),
-                getString(R.string.directorMovie3),
-                getString(R.string.actorsMovie1)
-            )
-        )
-        return movieList
     }
 
     private fun showToastMessage(message: String) {
@@ -113,7 +100,7 @@ class HomeFragment : Fragment() {
         toast.show()
     }
 
-    fun newInstance (favoriteItems: ArrayList<MovieItem>) =
+    fun newInstance (favoriteItems: ArrayList<Result>) =
         HomeFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(FAV_ARRAY, favoriteItems)
@@ -121,8 +108,8 @@ class HomeFragment : Fragment() {
         }
 
     interface OnRefresh {
-        fun favoritesRefresh(favorites: ArrayList<MovieItem>)
-        fun startDetailFragment(item: MovieItem)
+        fun favoritesRefresh(favorites: ArrayList<Result>)
+        fun startDetailFragment(item: Result)
     }
 
 }
