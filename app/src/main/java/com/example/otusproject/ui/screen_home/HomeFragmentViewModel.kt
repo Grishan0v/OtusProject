@@ -12,8 +12,7 @@ class HomeFragmentViewModel: ViewModel() {
     private val moviesLiveData = MutableLiveData<List<Movie>>()
     private val errorLiveData = MutableLiveData<String>()
     private val selectedMovieLiveData = MutableLiveData<Movie>()
-    private val favoriteLiveData = MutableLiveData<List<Movie>>()
-    private var favList = mutableListOf<Movie>() // где хранить эту переменную?
+    private val favoriteLiveData = MutableLiveData<MutableList<Movie>>()
 
     private val movieDBInteractor = MovieDBClient.instance.interactor
 
@@ -26,7 +25,7 @@ class HomeFragmentViewModel: ViewModel() {
     val selectedMovie : LiveData<Movie>
         get() = selectedMovieLiveData
 
-    val favorites : LiveData<List<Movie>>
+    val favorites : LiveData<MutableList<Movie>>
         get() = favoriteLiveData
 
     fun initMovieList() {
@@ -41,14 +40,22 @@ class HomeFragmentViewModel: ViewModel() {
         })
     }
 
+    fun initFavList() {
+        movieDBInteractor.getFavMovies(object: MovieDBInteractor.GetFavMoviesCallback{
+            override fun getFavMovies(movies: MutableList<Movie>) {
+                favoriteLiveData.postValue(movies)
+            }
+
+        })
+    }
+
     fun onMovieSelect(selectedMovie: Movie) {
         selectedMovieLiveData.postValue(selectedMovie)
     }
 
     fun addToFavorites(movie: Movie) {
-        if (!favList.contains(movie))
-            favList.add(movie)
-        favoriteLiveData.postValue(favList)
+        movieDBInteractor.putMovieToFav(movie)
+        initFavList()
     }
 
     fun onThemeChange() {
@@ -59,8 +66,8 @@ class HomeFragmentViewModel: ViewModel() {
             }
         }
     fun removeItemFromFavorites(movie: Movie) {
-        favList.remove(movie)
-        favoriteLiveData.postValue(null)
-        favoriteLiveData.postValue(favList)
+        movieDBInteractor.removeMovieFromFav(movie)
+        initFavList()
+
     }
 }

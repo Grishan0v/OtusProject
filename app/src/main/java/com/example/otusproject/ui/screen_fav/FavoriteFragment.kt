@@ -31,6 +31,7 @@ class FavoriteFragment : Fragment() {
         viewModel!!.favorites.observe(this.viewLifecycleOwner, Observer {fav ->
             favoriteMovies.clear()
             favoriteMovies.addAll(fav)})
+        viewModel!!.initFavList()
         initRecyclerView()
     }
 
@@ -47,6 +48,7 @@ class FavoriteFragment : Fragment() {
                 LayoutInflater.from(activity),
                 favoriteMovies) {
                 viewModel!!.removeItemFromFavorites(it)
+                viewModel!!.initFavList()
             }
     }
 }
