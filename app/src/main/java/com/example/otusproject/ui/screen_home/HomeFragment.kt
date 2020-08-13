@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.otusproject.OptionLocker
 import com.example.otusproject.R
 import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.SpacingItemDecoration
@@ -50,8 +51,13 @@ class HomeFragment : Fragment() {
             (activity as? Transfers)?.detailsTransfer()
         },
             setOnLongClickListener@{
-                viewModel!!.addToFavorites(it)
-                showToastMessage("Added to Favorite")
+                viewModel!!.initFavList()
+                if (OptionLocker.isLockedOptionFavorite) {
+                    showToastMessage("Buy Pro Version to unlock favorites")
+                } else {
+                    viewModel!!.addToFavorites(it)
+                    showToastMessage("Added to Favorite")
+                }
                 viewModel!!.initFavList()
                 return@setOnLongClickListener true })
         recycler_view_id.adapter = adapter

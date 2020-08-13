@@ -3,20 +3,19 @@
     <string name="app_name">OtusProject</string>
     <string name="inviteFriends_btn">Пригласить друзей</string>
     <string name="movieName1">Бегущий по лезвию 2049</string>
-    <string name="details_btn">Подробней</string>
-    <string name="checkBoxName">Избранное</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="alert_exit">Точно хотите выйти?</string>
     <string name="day">Дневной режим</string>
 
     <string name="poster">постер</string>
-    <string name="star">звезда</string>
     <string name="description">описание</string>
 
     <string name="release_date">Дата выхода:</string>
-    <string name="add_your_notes_here">добавьте заметку здесь</string>
-    <string name="add_to_favorite">избранное</string>
     <string name="inviteMessage">Привет друг, зацени моё приложение, оно просто супер</string>
      <string name="night">Ночной режим</string>
+    <string name="deleteBtn">Удалить</string>
+    <string name="home_menu_item">Главная</string>
+    <string name="favorite_item">Избранное</string>
+    <string name="invite_item">Пригласить</string>
 </resources>

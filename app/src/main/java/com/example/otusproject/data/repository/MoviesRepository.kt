@@ -7,7 +7,6 @@ import com.example.otusproject.data.vo.JsonMovie
 import com.example.otusproject.data.vo.JsonResponse
 import com.example.otusproject.data.vo.MovieItem
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

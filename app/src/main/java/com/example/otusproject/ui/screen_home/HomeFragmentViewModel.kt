@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.otusproject.data.App
 import com.example.otusproject.data.repository.MovieDbUseCase
 import com.example.otusproject.data.vo.MovieItem
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 class HomeFragmentViewModel(private val movieDbUseCase: MovieDbUseCase): ViewModel() {
     private val moviesLiveData = MutableLiveData<List<MovieItem>>()
