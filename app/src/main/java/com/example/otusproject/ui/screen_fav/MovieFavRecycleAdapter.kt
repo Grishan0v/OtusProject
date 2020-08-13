@@ -1,4 +1,4 @@
-package com.example.otusproject.adapter
+package com.example.otusproject.ui.screen_fav
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.otusproject.R
-import com.example.otusproject.Result
+import com.example.otusproject.data.vo.Movie
 import kotlinx.android.synthetic.main.movie_item_favorite_layout.view.*
 
 class MovieFavRecycleAdapter(
     private val context: LayoutInflater,
-    private var items: ArrayList<Result>
+    private var items: MutableList<Movie>,
+    val listener: (Movie) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,8 +33,8 @@ class MovieFavRecycleAdapter(
         when (holder) {
             is MovieFavViewHolder -> {
                 holder.bind(items[position]) {
-                    items.removeAt(position)
-                    notifyItemRemoved(position)
+                   listener(it)
+                    notifyDataSetChanged()
                 }
             }
         }
@@ -49,11 +50,11 @@ class MovieFavRecycleAdapter(
         private val itemRating: TextView = itemView.movieRating
         private val itemButton: Button = itemView.deleteBtn
 
-        fun bind(movieItem: Result, listener: (View) -> Unit) {
+        fun bind(movieItem: Movie, listener: (Movie) -> Unit) {
             itemTitle.text = movieItem.title
             itemRating.text = movieItem.voteAverage.toString()
             itemButton.setOnClickListener {
-                listener(itemButton)
+                listener(movieItem)
             }
 
             val requestOption = RequestOptions()
