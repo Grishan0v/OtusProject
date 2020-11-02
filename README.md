@@ -27,6 +27,7 @@ OtusProject это простой проект, созданный в резул
 * Material design
 
 # Технический стек
+<img align="right" src="https://github.com/Grishan0v/OtusProject/blob/master/20201103_001334.gif">
 
 * Технологии
   - Kotlin
@@ -48,6 +49,7 @@ OtusProject это простой проект, созданный в резул
   - JUnit (unit)
   - Espresso (UI)
     
+
 
 
 
