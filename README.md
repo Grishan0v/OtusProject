@@ -5,18 +5,8 @@ OtusProject это простой проект, созданный в проце
 Целью данного проекта было научиться основам создания Android-приложений с использованием актуальных
 технологий, применяемых в коммерческой разработке.
 
-# Установка
-Два простых способа запустить приложение
-
-### Android Studio
-  1. Android Studio -> File -> New -> From Version control -> Git
-  2. Ввести `https://github.com/grishan0v/otusproject.git` в раздел с URL
-
-### Command-line + Android Studio
-  1. git clone `https://github.com/grishan0v/otusproject.git`
-  2. Android Studio -> File -> Open
-
 # Характеристики проекта
+<img align="right" src="https://github.com/Grishan0v/OtusProject/blob/master/20201103_001334.gif">
 
 * 100% Kotlin
 * Model-View-ViewModel
@@ -27,7 +17,6 @@ OtusProject это простой проект, созданный в проце
 * Material design
 
 # Технический стек
-<img align="right" src="https://github.com/Grishan0v/OtusProject/blob/master/20201103_001334.gif">
 
 * Технологии
   - Kotlin
@@ -49,6 +38,16 @@ OtusProject это простой проект, созданный в проце
   - JUnit (unit)
   - Espresso (UI)
     
+# Установка
+Два простых способа запустить приложение
+
+### Android Studio
+  1. Android Studio -> File -> New -> From Version control -> Git
+  2. Ввести `https://github.com/grishan0v/otusproject.git` в раздел с URL
+
+### Command-line + Android Studio
+  1. git clone `https://github.com/grishan0v/otusproject.git`
+  2. Android Studio -> File -> Open
 
 
 
