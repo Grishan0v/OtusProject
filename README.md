@@ -1,9 +1,12 @@
 # Otus Android Developer (2020). Базовый курс 
 
 OtusProject это простой проект, созданный в процессе прохождения курса Android разработки на платформе Otus.
+Приложение работает с данными, которые подгружаются с ресурса [TMDb](https://developers.themoviedb.org/3/getting-started/introduction) из раздела [Popular](https://developers.themoviedb.org/3/movies/get-popular-movies)
 
 Целью данного проекта было научиться основам создания Android-приложений с использованием актуальных
 технологий, применяемых в коммерческой разработке.
+
+
 
 # Характеристики проекта
 <img align="right" src="https://github.com/Grishan0v/OtusProject/blob/master/20201103_001334.gif">
