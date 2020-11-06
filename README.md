@@ -45,7 +45,7 @@ OtusProject это простой проект, созданный в проце
 Два простых способа запустить приложение
 
 ### Android Studio
-  1. Android Studio -> File -> New -> From Version control -> Git
+  1. Android Studio -> File -> New -> Project from Version Control -> Git
   2. Ввести `https://github.com/grishan0v/otusproject.git` в раздел с URL
 
 ### Command-line + Android Studio
